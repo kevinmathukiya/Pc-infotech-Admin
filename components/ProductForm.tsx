@@ -65,8 +65,8 @@ export const ProductForm: React.FC<ProductFormProps> = ({
       try {
         setLoadingOptions(true);
         const [brandsRes, categoriesRes] = await Promise.all([
-          api.get('/brands?limit=100'),
-          api.get('/categories?limit=100'),
+          api.get('/api/v1/brands?limit=100'),
+          api.get('/api/v1/categories?limit=100'),
         ]);
 
         const brandList = brandsRes.data?.data?.brands || [];
@@ -188,12 +188,12 @@ export const ProductForm: React.FC<ProductFormProps> = ({
       }
 
       if (isEditMode) {
-        await api.put(`/products/${initialData._id}`, formData, {
+        await api.put(`/api/v1/products/${initialData._id}`, formData, {
           headers: { 'Content-Type': 'multipart/form-data' },
         });
         toast.success('Product updated successfully!');
       } else {
-        await api.post('/products', formData, {
+        await api.post('/api/v1/products', formData, {
           headers: { 'Content-Type': 'multipart/form-data' },
         });
         toast.success('Product created successfully!');

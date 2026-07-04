@@ -65,8 +65,8 @@ export default function ProductsCatalogPage() {
   const fetchFilters = async () => {
     try {
       const [brandsRes, categoriesRes] = await Promise.all([
-        api.get('/brands?limit=100'),
-        api.get('/categories?limit=100'),
+        api.get('/api/v1/brands?limit=100'),
+        api.get('/api/v1/categories?limit=100'),
       ]);
       setBrands(brandsRes.data?.data?.brands || []);
       setCategories(categoriesRes.data?.data?.categories || []);
@@ -94,7 +94,7 @@ export default function ProductsCatalogPage() {
         query.append(flagFilter, 'true');
       }
 
-      const res = await api.get(`/products?${query.toString()}`);
+      const res = await api.get(`/api/v1/products?${query.toString()}`);
       setProducts(res.data?.data?.products || []);
       setTotal(res.data?.data?.total || 0);
     } catch (error) {
@@ -122,7 +122,7 @@ export default function ProductsCatalogPage() {
   const handleDelete = async (id: string) => {
     if (!confirm('Are you sure you want to soft delete this product?')) return;
     try {
-      await api.delete(`/products/${id}`);
+      await api.delete(`/api/v1/products/${id}`);
       toast.success('Product deleted successfully');
       fetchProducts();
     } catch (error) {

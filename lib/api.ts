@@ -23,7 +23,7 @@ export const setAccessToken = (token: string | null) => {
 export const getAccessToken = () => accessToken;
 
 const api = axios.create({
-  baseURL: 'http://localhost:5000/api/v1',
+  baseURL: process.env.NEXT_PUBLIC_API_URL,
   withCredentials: true,
 });
 
@@ -31,7 +31,7 @@ const api = axios.create({
 api.interceptors.request.use(
   (config) => {
     const url = config.url || '';
-    const isAuthRoute = url.includes('/auth/login') || url.includes('/auth/refresh-token') || url.includes('/auth/forgot-password') || url.includes('/auth/reset-password') || url.includes('/auth/logout');
+    const isAuthRoute = url.includes('/api/v1/auth/login') || url.includes('/api/v1/auth/refresh-token') || url.includes('/api/v1/auth/forgot-password') || url.includes('/api/v1/auth/reset-password') || url.includes('/api/v1/auth/logout');
 
     if (!isAuthRoute && accessToken) {
       config.headers = config.headers || {};
@@ -49,7 +49,7 @@ api.interceptors.response.use(
   async (error) => {
     const originalRequest = error.config;
     const requestUrl = originalRequest?.url || '';
-    const isAuthRoute = requestUrl.includes('/auth/login') || requestUrl.includes('/auth/refresh-token') || requestUrl.includes('/auth/forgot-password') || requestUrl.includes('/auth/reset-password');
+    const isAuthRoute = requestUrl.includes('/api/v1/auth/login') || requestUrl.includes('/api/v1/auth/refresh-token') || requestUrl.includes('/api/v1/auth/forgot-password') || requestUrl.includes('/api/v1/auth/reset-password');
 
     // Do not attempt token refresh for auth routes themselves
     if (error.response?.status === 401 && !originalRequest._retry && !isAuthRoute) {
@@ -58,8 +58,9 @@ api.interceptors.response.use(
       if (!isRefreshing) {
         isRefreshing = true;
         try {
+          const baseUrl = process.env.NEXT_PUBLIC_API_URL;
           const response = await axios.post(
-            'http://localhost:5000/api/v1/auth/refresh-token',
+            `${baseUrl}/api/v1/auth/refresh-token`,
             {},
             { withCredentials: true }
           );

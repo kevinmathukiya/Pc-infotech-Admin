@@ -61,8 +61,8 @@ export default function HomepageCmsPage() {
     try {
       setLoading(true);
       const [cmsRes, productsRes] = await Promise.all([
-        api.get('/cms'),
-        api.get('/products?limit=100'),
+        api.get('/api/v1/cms'),
+        api.get('/api/v1/products?limit=100'),
       ]);
 
       const cmsData = cmsRes.data?.data?.cms || {};
@@ -105,7 +105,7 @@ export default function HomepageCmsPage() {
       formData.append('order', slideOrder);
       formData.append('image', slideImage);
 
-      const res = await api.post('/cms/hero-slider', formData, {
+      const res = await api.post('/api/v1/cms/hero-slider', formData, {
         headers: { 'Content-Type': 'multipart/form-data' },
       });
       toast.success('Slide added successfully!');
@@ -130,7 +130,7 @@ export default function HomepageCmsPage() {
   const handleDeleteSlide = async (slideId: string) => {
     if (!confirm('Are you sure you want to remove this hero slide?')) return;
     try {
-      const res = await api.delete(`/cms/hero-slider/${slideId}`);
+      const res = await api.delete(`/api/v1/cms/hero-slider/${slideId}`);
       toast.success('Hero slide deleted');
       setSlides(res.data?.data?.cms?.heroSlider || []);
     } catch (error) {
@@ -152,7 +152,7 @@ export default function HomepageCmsPage() {
         featuredProducts,
       };
 
-      const res = await api.put('/cms', payload);
+      const res = await api.put('/api/v1/cms', payload);
       toast.success('Homepage CMS text configured successfully!');
       
       const cmsData = res.data?.data?.cms || {};

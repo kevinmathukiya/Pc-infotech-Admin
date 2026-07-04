@@ -19,7 +19,7 @@ export default function EditServicePage() {
     const fetchService = async () => {
       try {
         setLoading(true);
-        const res = await api.get(`/services/${slug}`);
+        const res = await api.get(`/api/v1/services/${slug}`);
         setService(res.data?.data?.service || res.data?.data || res.data);
       } catch (error) {
         console.error(error);

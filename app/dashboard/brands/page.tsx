@@ -52,7 +52,7 @@ export default function BrandsPage() {
       if (search) query.append('search', search);
       if (statusFilter) query.append('status', statusFilter);
 
-      const res = await api.get(`/brands?${query.toString()}`);
+      const res = await api.get(`/api/v1/brands?${query.toString()}`);
       setBrands(res.data?.data?.brands || []);
       setTotal(res.data?.data?.total || 0);
     } catch (error) {
@@ -116,12 +116,12 @@ export default function BrandsPage() {
       if (bannerFile) formData.append('banner', bannerFile);
 
       if (editBrand) {
-        await api.put(`/brands/${editBrand._id}`, formData, {
+        await api.put(`/api/v1/brands/${editBrand._id}`, formData, {
           headers: { 'Content-Type': 'multipart/form-data' },
         });
         toast.success('Brand updated successfully!');
       } else {
-        await api.post('/brands', formData, {
+        await api.post('/api/v1/brands', formData, {
           headers: { 'Content-Type': 'multipart/form-data' },
         });
         toast.success('Brand registered successfully!');
@@ -140,7 +140,7 @@ export default function BrandsPage() {
   const handleDelete = async (id: string) => {
     if (!confirm('Are you sure you want to soft delete this brand?')) return;
     try {
-      await api.delete(`/brands/${id}`);
+      await api.delete(`/api/v1/brands/${id}`);
       toast.success('Brand deleted successfully');
       fetchBrands();
     } catch (error) {

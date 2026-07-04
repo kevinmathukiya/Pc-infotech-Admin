@@ -19,7 +19,7 @@ export default function EditBlogPage() {
     const fetchBlog = async () => {
       try {
         setLoading(true);
-        const res = await api.get(`/blogs/${slug}`);
+        const res = await api.get(`/api/v1/blogs/${slug}`);
         setBlog(res.data?.data?.blog || res.data?.data || res.data);
       } catch (error) {
         console.error(error);

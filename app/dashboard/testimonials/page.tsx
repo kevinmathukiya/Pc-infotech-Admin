@@ -38,7 +38,7 @@ export default function TestimonialsPage() {
   const fetchTestimonials = async () => {
     try {
       setLoading(true);
-      const res = await api.get('/testimonials');
+      const res = await api.get('/api/v1/testimonials');
       setTestimonials(res.data?.data?.testimonials || []);
     } catch (error) {
       console.error(error);
@@ -98,12 +98,12 @@ export default function TestimonialsPage() {
       if (photoFile) formData.append('photo', photoFile);
 
       if (editTestimonial) {
-        await api.put(`/testimonials/${editTestimonial._id}`, formData, {
+        await api.put(`/api/v1/testimonials/${editTestimonial._id}`, formData, {
           headers: { 'Content-Type': 'multipart/form-data' },
         });
         toast.success('Testimonial updated successfully!');
       } else {
-        await api.post('/testimonials', formData, {
+        await api.post('/api/v1/testimonials', formData, {
           headers: { 'Content-Type': 'multipart/form-data' },
         });
         toast.success('Testimonial registered successfully!');
@@ -122,7 +122,7 @@ export default function TestimonialsPage() {
   const handleDelete = async (id: string) => {
     if (!confirm('Are you sure you want to delete this testimonial?')) return;
     try {
-      await api.delete(`/testimonials/${id}`);
+      await api.delete(`/api/v1/testimonials/${id}`);
       toast.success('Testimonial deleted successfully');
       fetchTestimonials();
     } catch (error) {
