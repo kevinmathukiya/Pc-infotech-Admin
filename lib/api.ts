@@ -1,5 +1,7 @@
 import axios from 'axios';
 
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL;
+
 const ACCESS_TOKEN_STORAGE_KEY = 'pcinfotech_access_token';
 let accessToken: string | null = null;
 let isRefreshing = false;
@@ -23,7 +25,7 @@ export const setAccessToken = (token: string | null) => {
 export const getAccessToken = () => accessToken;
 
 const api = axios.create({
-  baseURL: 'http://localhost:5000/api/v1',
+  baseURL: API_BASE_URL,
   withCredentials: true,
 });
 
@@ -59,7 +61,7 @@ api.interceptors.response.use(
         isRefreshing = true;
         try {
           const response = await axios.post(
-            'http://localhost:5000/api/v1/auth/refresh-token',
+            `${API_BASE_URL}/api/v1/auth/refresh-token`,
             {},
             { withCredentials: true }
           );

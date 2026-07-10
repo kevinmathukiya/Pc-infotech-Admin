@@ -46,7 +46,7 @@ export default function CategoriesPage() {
 
   const fetchBrands = async () => {
     try {
-      const res = await api.get('/brands?limit=100');
+      const res = await api.get('/api/v1/brands?limit=100');
       setBrands(res.data?.data?.brands || []);
     } catch (error) {
       console.error('Failed to load brands options', error);
@@ -64,7 +64,7 @@ export default function CategoriesPage() {
       if (search) query.append('search', search);
       if (brandFilter) query.append('brand', brandFilter);
 
-      const res = await api.get(`/categories?${query.toString()}`);
+      const res = await api.get(`/api/v1/categories?${query.toString()}`);
       setCategories(res.data?.data?.categories || []);
       setTotal(res.data?.data?.total || 0);
     } catch (error) {
@@ -126,10 +126,10 @@ export default function CategoriesPage() {
       };
 
       if (editCategory) {
-        await api.put(`/categories/${editCategory._id}`, payload);
+        await api.put(`/api/v1/categories/${editCategory._id}`, payload);
         toast.success('Category updated successfully!');
       } else {
-        await api.post('/categories', payload);
+        await api.post('/api/v1/categories', payload);
         toast.success('Category created successfully!');
       }
 
@@ -146,7 +146,7 @@ export default function CategoriesPage() {
   const handleDelete = async (id: string) => {
     if (!confirm('Are you sure you want to delete this category?')) return;
     try {
-      await api.delete(`/categories/${id}`);
+      await api.delete(`/api/v1/categories/${id}`);
       toast.success('Category deleted successfully');
       fetchCategories();
     } catch (error) {

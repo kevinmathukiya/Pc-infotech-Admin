@@ -102,12 +102,12 @@ export const BlogForm: React.FC<BlogFormProps> = ({
       }
 
       if (isEditMode) {
-        await api.put(`/blogs/${initialData._id}`, formData, {
+        await api.put(`/api/v1/blogs/${initialData._id}`, formData, {
           headers: { 'Content-Type': 'multipart/form-data' },
         });
         toast.success('Blog post updated successfully!');
       } else {
-        await api.post('/blogs', formData, {
+        await api.post('/api/v1/blogs', formData, {
           headers: { 'Content-Type': 'multipart/form-data' },
         });
         toast.success('Blog post published successfully!');

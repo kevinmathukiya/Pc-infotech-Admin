@@ -71,7 +71,7 @@ export const productAdminService = {
    * Get all products with pagination, search, sorting, and filters.
    */
   getAllProducts: async (params?: IProductQueryParams): Promise<IProductsResponse> => {
-    const response = await api.get<IProductsResponse>('/products', { params });
+    const response = await api.get<IProductsResponse>('/api/v1/products', { params });
     return response.data;
   },
 
@@ -79,7 +79,7 @@ export const productAdminService = {
    * Get a single product details by its unique slug.
    */
   getProductBySlug: async (slug: string): Promise<ISingleProductResponse> => {
-    const response = await api.get<ISingleProductResponse>(`/products/${slug}`);
+    const response = await api.get<ISingleProductResponse>(`/api/v1/products/${slug}`);
     return response.data;
   },
 
@@ -88,7 +88,7 @@ export const productAdminService = {
    * Expects a FormData object containing text fields and file attachments.
    */
   createProduct: async (formData: FormData): Promise<ISingleProductResponse> => {
-    const response = await api.post<ISingleProductResponse>('/products', formData, {
+    const response = await api.post<ISingleProductResponse>('/api/v1/products', formData, {
       headers: {
         'Content-Type': 'multipart/form-data',
       },
@@ -101,7 +101,7 @@ export const productAdminService = {
    * Expects a FormData object (files are optional).
    */
   updateProduct: async (id: string, formData: FormData): Promise<ISingleProductResponse> => {
-    const response = await api.put<ISingleProductResponse>(`/products/${id}`, formData, {
+    const response = await api.put<ISingleProductResponse>(`/api/v1/products/${id}`, formData, {
       headers: {
         'Content-Type': 'multipart/form-data',
       },
@@ -113,7 +113,7 @@ export const productAdminService = {
    * Delete a product by its ID (soft delete on the backend).
    */
   deleteProduct: async (id: string): Promise<{ success: boolean; message: string }> => {
-    const response = await api.delete<{ success: boolean; message: string }>(`/products/${id}`);
+    const response = await api.delete<{ success: boolean; message: string }>(`/api/v1/products/${id}`);
     return response.data;
   },
 };

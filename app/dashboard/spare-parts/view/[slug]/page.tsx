@@ -20,7 +20,7 @@ export default function ViewSparePartPage() {
     const fetchSparePart = async () => {
       try {
         setLoading(true);
-        const res = await api.get(`/spare-parts/${slug}`);
+        const res = await api.get(`/api/v1/spare-parts/${slug}`);
         const part = res.data?.data?.sparePart || res.data?.data || res.data;
         setSparePart(part);
         if (part?.thumbnail?.url) {
@@ -39,7 +39,7 @@ export default function ViewSparePartPage() {
   const handleDelete = async () => {
     if (!confirm('Are you sure you want to delete this spare part?')) return;
     try {
-      await api.delete(`/spare-parts/${sparePart._id}`);
+      await api.delete(`/api/v1/spare-parts/${sparePart._id}`);
       toast.success('Spare part deleted successfully');
       router.push('/dashboard/spare-parts');
     } catch (error) {

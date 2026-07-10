@@ -88,9 +88,9 @@ export default function SparePartsCatalogPage() {
   const fetchFilters = async () => {
     try {
       const [brandsRes, categoriesRes, productsRes] = await Promise.all([
-        api.get('/brands?limit=100'),
-        api.get('/categories?limit=100'),
-        api.get('/products?limit=100'),
+        api.get('/api/v1/brands?limit=100'),
+        api.get('/api/v1/categories?limit=100'),
+        api.get('/api/v1/products?limit=100'),
       ]);
       setBrands(brandsRes.data?.data?.brands || []);
       setCategories(categoriesRes.data?.data?.categories || []);
@@ -115,7 +115,7 @@ export default function SparePartsCatalogPage() {
       if (productFilter) query.append('product', productFilter);
       if (statusFilter) query.append('status', statusFilter);
 
-      const res = await api.get(`/spare-parts?${query.toString()}`);
+      const res = await api.get(`/api/v1/spare-parts?${query.toString()}`);
       setSpareParts(res.data?.data?.spareParts || []);
       setTotal(res.data?.data?.total || 0);
     } catch (error) {
@@ -183,7 +183,7 @@ export default function SparePartsCatalogPage() {
   const handleDelete = async (id: string) => {
     if (!confirm('Are you sure you want to delete this spare part?')) return;
     try {
-      await api.delete(`/spare-parts/${id}`);
+      await api.delete(`/api/v1/spare-parts/${id}`);
       toast.success('Spare part deleted successfully');
       fetchSpareParts();
     } catch (error) {

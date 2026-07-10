@@ -89,9 +89,9 @@ export const SparePartForm: React.FC<SparePartFormProps> = ({
       try {
         setLoadingOptions(true);
         const [brandsRes, categoriesRes, productsRes] = await Promise.all([
-          api.get('/brands?limit=100'),
-          api.get('/categories?limit=100'),
-          api.get('/products?limit=100'),
+          api.get('/api/v1/brands?limit=100'),
+          api.get('/api/v1/categories?limit=100'),
+          api.get('/api/v1/products?limit=100'),
         ]);
 
         const brandList = brandsRes.data?.data?.brands || [];

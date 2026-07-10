@@ -19,7 +19,7 @@ export default function EditSparePartPage() {
     const fetchSparePart = async () => {
       try {
         setLoading(true);
-        const res = await api.get(`/spare-parts/${slug}`);
+        const res = await api.get(`/api/v1/spare-parts/${slug}`);
         setSparePart(res.data?.data?.sparePart || res.data?.data || res.data);
       } catch (error) {
         console.error(error);
