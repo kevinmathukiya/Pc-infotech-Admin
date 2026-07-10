@@ -5,7 +5,7 @@ import api from '../../../lib/api';
 import { toast } from 'react-hot-toast';
 import { Input, Select } from '../../../components/ui';
 import { FileUploadDropzone } from '../../../components/ui/FileUploadDropzone';
-import { Home, Plus, Trash2, Save, Images, LayoutGrid, Check, Info, Sparkles, Star } from 'lucide-react';
+import { Home, Plus, Trash2, Save, Images, LayoutGrid, Check, Info, Sparkles, Star, Phone } from 'lucide-react';
 
 interface HeroSlide {
   _id: string;
@@ -47,6 +47,7 @@ export default function HomepageCmsPage() {
   const [brandSectionTitle, setBrandSectionTitle] = useState('');
   const [servicesSectionTitle, setServicesSectionTitle] = useState('');
   const [testimonialsSectionTitle, setTestimonialsSectionTitle] = useState('');
+  const [whatsappNumber, setWhatsappNumber] = useState('');
   
   // Why Choose Us list
   const [whyChooseUs, setWhyChooseUs] = useState<WhyChooseUs[]>([]);
@@ -70,6 +71,7 @@ export default function HomepageCmsPage() {
       setBrandSectionTitle(cmsData.brandSectionTitle || '');
       setServicesSectionTitle(cmsData.servicesSectionTitle || '');
       setTestimonialsSectionTitle(cmsData.testimonialsSectionTitle || '');
+      setWhatsappNumber(cmsData.whatsappNumber || '');
       setWhyChooseUs(cmsData.whyChooseUs || []);
       
       const fpIds = cmsData.featuredProducts?.map((p: any) => typeof p === 'object' ? p._id : p) || [];
@@ -150,6 +152,7 @@ export default function HomepageCmsPage() {
         testimonialsSectionTitle,
         whyChooseUs,
         featuredProducts,
+        whatsappNumber,
       };
 
       const res = await api.put('/api/v1/cms', payload);
@@ -161,6 +164,7 @@ export default function HomepageCmsPage() {
       setTestimonialsSectionTitle(cmsData.testimonialsSectionTitle || '');
       setWhyChooseUs(cmsData.whyChooseUs || []);
       setFeaturedProducts(cmsData.featuredProducts || []);
+      setWhatsappNumber(cmsData.whatsappNumber || '');
     } catch (error) {
       console.error(error);
       toast.error('Failed to save configuration settings.');
@@ -364,36 +368,55 @@ export default function HomepageCmsPage() {
         <form onSubmit={handleSaveSections} className="space-y-6">
           <div className="grid gap-6 lg:grid-cols-2">
             
-            {/* Headers Config */}
-            <div className="glass-panel border border-primary-border rounded-xl p-5 space-y-4 h-fit">
-              <h3 className="text-sm font-bold text-foreground uppercase tracking-widest flex items-center gap-2 border-b border-primary-border pb-3 mb-2">
-                <Info size={16} className="text-[#ff5e5b]" />
-                Section Headers Text
-              </h3>
-              
-              <Input
-                label="Brands Section Main Title"
-                placeholder="e.g. AUTHORIZED BRAND PARTNERS"
-                value={brandSectionTitle}
-                onChange={(e) => setBrandSectionTitle(e.target.value)}
-                disabled={isSaving}
-              />
+            {/* Left Column Stack: Headers & Contact Settings */}
+            <div className="space-y-6 h-fit">
+              {/* Headers Config */}
+              <div className="glass-panel border border-primary-border rounded-xl p-5 space-y-4">
+                <h3 className="text-sm font-bold text-foreground uppercase tracking-widest flex items-center gap-2 border-b border-primary-border pb-3 mb-2">
+                  <Info size={16} className="text-[#ff5e5b]" />
+                  Section Headers Text
+                </h3>
+                
+                <Input
+                  label="Brands Section Main Title"
+                  placeholder="e.g. AUTHORIZED BRAND PARTNERS"
+                  value={brandSectionTitle}
+                  onChange={(e) => setBrandSectionTitle(e.target.value)}
+                  disabled={isSaving}
+                />
 
-              <Input
-                label="Services Section Main Title"
-                placeholder="e.g. OUR COMPUTER SERVICES & REPAIRS"
-                value={servicesSectionTitle}
-                onChange={(e) => setServicesSectionTitle(e.target.value)}
-                disabled={isSaving}
-              />
+                <Input
+                  label="Services Section Main Title"
+                  placeholder="e.g. OUR COMPUTER SERVICES & REPAIRS"
+                  value={servicesSectionTitle}
+                  onChange={(e) => setServicesSectionTitle(e.target.value)}
+                  disabled={isSaving}
+                />
 
-              <Input
-                label="Testimonials Section Title"
-                placeholder="e.g. CLIENT REVIEWS & CASE STUDIES"
-                value={testimonialsSectionTitle}
-                onChange={(e) => setTestimonialsSectionTitle(e.target.value)}
-                disabled={isSaving}
-              />
+                <Input
+                  label="Testimonials Section Title"
+                  placeholder="e.g. CLIENT REVIEWS & CASE STUDIES"
+                  value={testimonialsSectionTitle}
+                  onChange={(e) => setTestimonialsSectionTitle(e.target.value)}
+                  disabled={isSaving}
+                />
+              </div>
+
+              {/* Contact Settings */}
+              <div className="glass-panel border border-primary-border rounded-xl p-5 space-y-4">
+                <h3 className="text-sm font-bold text-foreground uppercase tracking-widest flex items-center gap-2 border-b border-primary-border pb-3 mb-2">
+                  <Phone size={16} className="text-[#ff5e5b]" />
+                  Contact Settings
+                </h3>
+                
+                <Input
+                  label="WhatsApp Number"
+                  placeholder="e.g. 9925435034"
+                  value={whatsappNumber}
+                  onChange={(e) => setWhatsappNumber(e.target.value)}
+                  disabled={isSaving}
+                />
+              </div>
             </div>
 
             {/* Why Choose Us Builder */}
