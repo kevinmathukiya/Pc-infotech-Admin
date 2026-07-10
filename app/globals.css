@@ -1,0 +1,288 @@
+@import "tailwindcss";
+
+:root {
+  /* Light theme variables */
+  --primary-deep: #f8fafc;
+  --primary-slate: #ffffff;
+  --primary-card: #f1f5f9;
+  --primary-border: #cbd5e1;
+  --primary-light: #0284c7;
+  --accent-coral: #ff5e5b;
+  --accent-glorious: #ff3b38;
+  --accent-soft: rgba(255, 94, 91, 0.1);
+  --accent-mute: rgba(255, 94, 91, 0.2);
+
+  --background: var(--primary-deep);
+  --foreground: #0f172a;
+  --text-secondary: #475569;
+  --text-muted: #94a3b8;
+  
+  --input-bg: #ffffff;
+  --input-text: #0f172a;
+  --input-border: #cbd5e1;
+  
+  --glass-bg: rgba(255, 255, 255, 0.75);
+  --glass-border: rgba(255, 94, 91, 0.15);
+  --glass-card-bg: rgba(241, 245, 249, 0.6);
+  --glass-card-border: rgba(0, 0, 0, 0.06);
+  
+  --scrollbar-track: #f8fafc;
+  --scrollbar-thumb: #cbd5e1;
+}
+
+.dark {
+  /* Dark theme variables */
+  --primary-deep: #090d16;
+  --primary-slate: #0f172a;
+  --primary-card: #151f32;
+  --primary-border: #1e293b;
+  --primary-light: #38bdf8;
+  --accent-coral: #ff5e5b;
+  --accent-glorious: #ff3b38;
+  --accent-soft: rgba(255, 94, 91, 0.15);
+  --accent-mute: rgba(255, 94, 91, 0.4);
+
+  --background: var(--primary-deep);
+  --foreground: #f8fafc;
+  --text-secondary: #94a3b8;
+  --text-muted: #64748b;
+  
+  --input-bg: #0b111e;
+  --input-text: #f8fafc;
+  --input-border: #1e293b;
+  
+  --glass-bg: rgba(21, 31, 50, 0.7);
+  --glass-border: rgba(255, 94, 91, 0.1);
+  --glass-card-bg: rgba(21, 31, 50, 0.55);
+  --glass-card-border: rgba(255, 255, 255, 0.05);
+  
+  --scrollbar-track: #090d16;
+  --scrollbar-thumb: #1e293b;
+}
+
+@theme {
+  --color-primary-deep: var(--primary-deep);
+  --color-primary-slate: var(--primary-slate);
+  --color-primary-card: var(--primary-card);
+  --color-primary-border: var(--primary-border);
+  --color-primary-light: var(--primary-light);
+  --color-accent-coral: var(--accent-coral);
+  --color-accent-glorious: var(--accent-glorious);
+  --color-accent-soft: var(--accent-soft);
+  --color-accent-mute: var(--accent-mute);
+  
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  
+  /* Override Tailwind slate colors dynamically */
+  --color-slate-50: var(--input-bg);
+  --color-slate-100: var(--primary-card);
+  --color-slate-200: var(--primary-border);
+  --color-slate-300: var(--primary-border);
+  --color-slate-400: var(--text-muted);
+  --color-slate-450: var(--text-muted);
+  --color-slate-500: var(--text-secondary);
+  --color-slate-600: var(--text-secondary);
+  --color-slate-700: var(--text-secondary);
+  --color-slate-800: var(--foreground);
+  --color-slate-850: var(--primary-border);
+  --color-slate-900: var(--primary-deep);
+  --color-slate-950: var(--primary-deep);
+  
+  --font-sans: 'Outfit', 'Inter', system-ui, -apple-system, sans-serif;
+}
+
+body {
+  background-color: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans);
+  min-height: 100vh;
+  overflow-x: hidden;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Custom Scrollbar for premium feel */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--scrollbar-track);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--scrollbar-thumb);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #ff5e5b;
+}
+
+/* Glassmorphism utility classes */
+.glass-panel {
+  background: var(--glass-bg);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--glass-border);
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.08);
+  transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+.dark .glass-panel {
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+}
+
+.glass-card {
+  background: var(--glass-card-bg);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid var(--glass-card-border);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.glass-card:hover {
+  border-color: rgba(255, 94, 91, 0.3);
+  box-shadow: 0 10px 25px -5px rgba(255, 94, 91, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.15);
+  transform: translateY(-2px);
+}
+
+.dark .glass-card:hover {
+  box-shadow: 0 10px 25px -5px rgba(255, 94, 91, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.5);
+}
+
+/* Custom glowing effects */
+.glow-accent {
+  box-shadow: 0 0 15px 2px rgba(255, 94, 91, 0.25);
+}
+
+.glow-text {
+  text-shadow: 0 0 10px rgba(255, 94, 91, 0.4);
+}
+
+/* Soft transition effects */
+.transition-glow {
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.transition-glow:focus-within {
+  border-color: #ff5e5b;
+  box-shadow: 0 0 0 2px rgba(255, 94, 91, 0.2);
+}
+
+/* Form element base stylings */
+.input-field {
+  width: 100%;
+  padding: 0.625rem 1rem;
+  background-color: var(--input-bg);
+  border: 1px solid var(--input-border);
+  border-radius: 0.5rem;
+  color: var(--input-text);
+  outline: none;
+  font-size: 0.875rem;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  transition: all 0.2s ease;
+}
+
+.input-field:focus {
+  border-color: #ff5e5b;
+  box-shadow: 0 0 0 2.5px rgba(255, 94, 91, 0.15);
+}
+
+.input-field::placeholder {
+  color: var(--text-muted);
+}
+
+.input-field.pl-10 {
+  padding-left: 2.5rem;
+}
+
+.input-field.pr-11 {
+  padding-right: 2.75rem;
+}
+
+select.input-field {
+  appearance: none;
+  background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3E%3Cpath stroke='%23475569' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3E%3C/svg%3E");
+  background-position: right 0.75rem center;
+  background-repeat: no-repeat;
+  background-size: 1.25rem;
+  padding-right: 2.5rem;
+}
+
+.dark select.input-field {
+  background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3E%3Cpath stroke='%2394a3b8' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3E%3C/svg%3E");
+}
+
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.625rem 1.25rem;
+  font-weight: 500;
+  font-size: 0.875rem;
+  border-radius: 0.5rem;
+  background-color: #ff5e5b;
+  color: #ffffff;
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+
+.btn-primary:hover {
+  background-color: #ff3b38;
+  box-shadow: 0 4px 12px rgba(255, 94, 91, 0.35);
+}
+
+.btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.625rem 1.25rem;
+  font-weight: 500;
+  font-size: 0.875rem;
+  border-radius: 0.5rem;
+  background-color: var(--primary-border);
+  color: var(--foreground);
+  border: 1px solid var(--primary-border);
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+
+.btn-secondary:hover {
+  background-color: var(--primary-card);
+}
+
+/* Custom checkmark styles */
+.checkbox-custom {
+  appearance: none;
+  background-color: var(--input-bg);
+  border: 1px solid var(--input-border);
+  border-radius: 0.25rem;
+  width: 1rem;
+  height: 1rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  outline: none;
+  cursor: pointer;
+  position: relative;
+  transition: all 0.2s ease;
+}
+
+.checkbox-custom:checked {
+  background-color: #ff5e5b;
+  border-color: #ff5e5b;
+}
+
+.checkbox-custom:checked::after {
+  content: "";
+  display: block;
+  width: 0.25rem;
+  height: 0.5rem;
+  border: solid white;
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+  position: absolute;
+  top: 1px;
+}
