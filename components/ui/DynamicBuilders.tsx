@@ -100,20 +100,34 @@ interface FeaturesBuilderProps {
   label: string;
   value: string[];
   onChange: (features: string[]) => void;
+  pendingKey?: string;
+  pendingInputsRef?: React.MutableRefObject<{ [key: string]: string }>;
 }
 
 export const FeaturesBuilder: React.FC<FeaturesBuilderProps> = ({
   label,
   value = [],
   onChange,
+  pendingKey,
+  pendingInputsRef,
 }) => {
   const [newFeature, setNewFeature] = useState('');
+
+  const handleInputChange = (val: string) => {
+    setNewFeature(val);
+    if (pendingInputsRef && pendingKey) {
+      pendingInputsRef.current[pendingKey] = val;
+    }
+  };
 
   const addFeature = () => {
     if (!newFeature.trim()) return;
     const updated = [...value, newFeature.trim()];
     onChange(updated);
     setNewFeature('');
+    if (pendingInputsRef && pendingKey) {
+      pendingInputsRef.current[pendingKey] = '';
+    }
   };
 
   const removeFeature = (index: number) => {
@@ -156,7 +170,8 @@ export const FeaturesBuilder: React.FC<FeaturesBuilderProps> = ({
           <Input
             placeholder="Add point description..."
             value={newFeature}
-            onChange={(e) => setNewFeature(e.target.value)}
+            onChange={(e) => handleInputChange(e.target.value)}
+            onBlur={addFeature}
             onKeyDown={(e) => {
               if (e.key === 'Enter') {
                 e.preventDefault();

@@ -68,13 +68,7 @@ export default function BranchesPage() {
       );
       setRegions(uniqueRegions);
 
-      if (uniqueRegions.length > 0) {
-        if (!activeTab || !uniqueRegions.includes(activeTab)) {
-          setActiveTab(uniqueRegions[0]);
-        }
-      } else {
-        setActiveTab('');
-      }
+      // Auto-selection of regions is removed as the filters now default to "All Regions".
     } catch (error) {
       console.error(error);
       toast.error('Failed to retrieve branches database.');
@@ -186,9 +180,9 @@ export default function BranchesPage() {
     }
   };
 
-  // Filter branches of current tab
+  // Filter branches by region (or show all if activeTab is empty)
   const activeBranchesList = branches.filter(
-    (b) => b.region.toUpperCase().trim() === activeTab
+    (b) => !activeTab || b.region.toUpperCase().trim() === activeTab
   );
 
   return (
@@ -207,7 +201,7 @@ export default function BranchesPage() {
         </div>
         <button
           onClick={openCreateModal}
-          className="btn-primary flex items-center justify-center gap-1.5 self-start glow-accent"
+          className="btn-premium-brand flex items-center justify-center gap-1.5 self-start text-xs font-bold"
         >
           <Plus size={16} />
           Add Branch
@@ -215,7 +209,7 @@ export default function BranchesPage() {
       </div>
 
       {/* Query Filters */}
-      <div className="glass-panel border border-primary-border rounded-xl p-4 flex flex-col md:flex-row gap-4 justify-between items-stretch">
+      <div className="glass-card-premium rounded-2xl p-4 flex flex-col md:flex-row gap-4 justify-between items-stretch border border-white/5">
         <form onSubmit={handleSearchSubmit} className="flex-1 flex gap-2">
           <div className="relative flex-1">
             <input
@@ -223,35 +217,27 @@ export default function BranchesPage() {
               placeholder="Search branches by name, city, state, region, type..."
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              className="input-field pl-10"
+              className="input-field pl-10 h-10 w-full"
             />
-            <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-500" size={16} />
+            <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400" size={16} />
           </div>
-          <button type="submit" className="btn-secondary px-5 flex items-center gap-1">
+          <button type="submit" className="btn-secondary h-10 px-5 flex items-center gap-1.5 shrink-0">
             <Search size={14} />
             Find
           </button>
         </form>
-      </div>
-
-      {/* Tabs list */}
-      {regions.length > 0 && (
-        <div className="flex flex-wrap border-b border-primary-border gap-1.5 pb-[1px]">
-          {regions.map((reg) => (
-            <button
-              key={reg}
-              onClick={() => setActiveTab(reg)}
-              className={`px-5 py-3 text-xs font-bold uppercase tracking-wider transition-all border-b-2 ${
-                activeTab === reg
-                  ? 'border-[#ff5e5b] text-[#ff5e5b] bg-[#ff5e5b]/5'
-                  : 'border-transparent text-slate-550 dark:text-slate-450 hover:text-foreground hover:bg-primary-card/50'
-              }`}
-            >
-              {reg}
-            </button>
-          ))}
+        
+        <div className="w-full md:w-52 h-10 select-wrapper">
+          <Select
+            options={[
+              { label: 'All Regions', value: '' },
+              ...regions.map((reg) => ({ label: reg, value: reg })),
+            ]}
+            value={activeTab}
+            onChange={(e) => setActiveTab(e.target.value)}
+          />
         </div>
-      )}
+      </div>
 
       {/* Branch Cards list */}
       {loading ? (
@@ -263,12 +249,12 @@ export default function BranchesPage() {
           {activeBranchesList.map((branch) => (
             <div
               key={branch._id}
-              className="glass-panel border border-primary-border rounded-xl p-6 flex flex-col justify-between"
+              className="glass-card-premium border border-white/5 rounded-2xl p-6 flex flex-col justify-between group hover:-translate-y-1 transition-all duration-300 hover:shadow-[0_8px_30px_rgba(255,94,91,0.02)]"
             >
               <div>
                 <div className="flex items-start justify-between">
                   <div>
-                    <h3 className="text-base font-bold text-foreground">{branch.name}</h3>
+                    <h3 className="text-base font-bold text-foreground group-hover:text-[#ff5e5b] transition-colors">{branch.name}</h3>
                     <div className="flex items-center gap-2 mt-1.5">
                       <span className={`inline-flex items-center gap-1 px-2.5 py-0.5 rounded text-[10px] font-bold uppercase tracking-wide ${
                         branch.branchType === 'head_office' 
@@ -291,14 +277,14 @@ export default function BranchesPage() {
                   <div className="flex gap-1.5">
                     <button
                       onClick={() => openEditModal(branch)}
-                      className="p-1.5 text-slate-550 dark:text-slate-400 hover:text-sky-400 rounded hover:bg-primary-card transition-colors"
+                      className="p-1.5 text-slate-400 hover:text-sky-400 rounded-lg hover:bg-sky-500/10 transition-all duration-200"
                       title="Edit Branch"
                     >
                       <Edit size={14} />
                     </button>
                     <button
                       onClick={() => handleDelete(branch._id)}
-                      className="p-1.5 text-slate-550 dark:text-slate-400 hover:text-red-400 rounded hover:bg-red-500/10 transition-colors"
+                      className="p-1.5 text-slate-400 hover:text-red-400 rounded-lg hover:bg-red-500/10 transition-all duration-200"
                       title="Delete Branch"
                     >
                       <Trash2 size={14} />
@@ -306,7 +292,7 @@ export default function BranchesPage() {
                   </div>
                 </div>
 
-                <div className="mt-4 text-xs text-slate-500 dark:text-slate-400 bg-primary-slate/40 p-3 rounded-lg border border-primary-border">
+                <div className="mt-4 text-xs text-slate-400 bg-black/20 p-3 rounded-xl border border-white/5">
                   <p className="font-semibold text-foreground/90 mb-1">Support Scope:</p>
                   <p className="leading-relaxed">{branch.supportScope}</p>
                 </div>
@@ -339,7 +325,7 @@ export default function BranchesPage() {
               </div>
 
               {branch.googleMapUrl && (
-                <div className="border-t border-primary-border mt-5 pt-3">
+                <div className="border-t border-white/5 mt-5 pt-3">
                   <a
                     href={branch.googleMapUrl}
                     target="_blank"
@@ -375,15 +361,26 @@ export default function BranchesPage() {
             <div className="space-y-4">
               <div className="grid gap-4 sm:grid-cols-2">
                 <Input
-                  label="Branch Name"
+                  label={
+                    <span className="flex items-center gap-1.5 text-slate-400">
+                      <MapPin size={13} className="text-[#ff5e5b]" />
+                      Branch Name
+                    </span>
+                  }
                   placeholder="e.g. PC Infotech Surat"
                   value={name}
                   onChange={(e) => setName(e.target.value)}
                   disabled={isSubmitting}
+                  className="input-field border-white/5 bg-black/20 hover:border-white/10 focus:border-[#ff5e5b] focus:ring-1 focus:ring-[#ff5e5b]/20 transition-all duration-300"
                   required
                 />
                 <Select
-                  label="Branch Type"
+                  label={
+                    <span className="flex items-center gap-1.5 text-slate-400">
+                      <Shield size={13} className="text-[#ff5e5b]" />
+                      Branch Type
+                    </span>
+                  }
                   options={[
                     { label: 'Partner Outlets', value: 'branch_partner' },
                     { label: 'Head Office', value: 'head_office' },
@@ -391,6 +388,7 @@ export default function BranchesPage() {
                   value={branchType}
                   onChange={(e) => setBranchType(e.target.value as 'head_office' | 'branch_partner')}
                   disabled={isSubmitting}
+                  className="input-field border-white/5 bg-black/20 hover:border-white/10 focus:border-[#ff5e5b] focus:ring-1 focus:ring-[#ff5e5b]/20 transition-all duration-300"
                   required
                 />
               </div>
@@ -398,53 +396,78 @@ export default function BranchesPage() {
               <div className="grid gap-4 sm:grid-cols-3">
                 <div className="sm:col-span-2">
                   <Input
-                    label="Region"
+                    label={
+                      <span className="flex items-center gap-1.5 text-slate-400">
+                        <Globe size={13} className="text-[#ff5e5b]" />
+                        Region
+                      </span>
+                    }
                     placeholder="e.g. GUJARAT REGION"
                     value={region}
                     onChange={(e) => setRegion(e.target.value)}
                     disabled={isSubmitting}
+                    className="input-field border-white/5 bg-black/20 hover:border-white/10 focus:border-[#ff5e5b] focus:ring-1 focus:ring-[#ff5e5b]/20 transition-all duration-300"
                     required
                   />
                 </div>
                 <Input
-                  label="Pincode"
+                  label={
+                    <span className="flex items-center gap-1.5 text-slate-400">
+                      <MapPin size={13} className="text-[#ff5e5b]" />
+                      Pincode
+                    </span>
+                  }
                   placeholder="395001"
                   value={pincode}
                   onChange={(e) => setPincode(e.target.value)}
                   maxLength={6}
                   disabled={isSubmitting}
+                  className="input-field border-white/5 bg-black/20 hover:border-white/10 focus:border-[#ff5e5b] focus:ring-1 focus:ring-[#ff5e5b]/20 transition-all duration-300"
                   required
                 />
               </div>
 
               <div className="grid gap-4 sm:grid-cols-2">
                 <Input
-                  label="City"
+                  label={
+                    <span className="flex items-center gap-1.5 text-slate-400">
+                      <Globe size={13} className="text-[#ff5e5b]" />
+                      City
+                    </span>
+                  }
                   placeholder="e.g. Surat"
                   value={city}
                   onChange={(e) => setCity(e.target.value)}
                   disabled={isSubmitting}
+                  className="input-field border-white/5 bg-black/20 hover:border-white/10 focus:border-[#ff5e5b] focus:ring-1 focus:ring-[#ff5e5b]/20 transition-all duration-300"
                   required
                 />
                 <Input
-                  label="State"
+                  label={
+                    <span className="flex items-center gap-1.5 text-slate-400">
+                      <Globe size={13} className="text-[#ff5e5b]" />
+                      State
+                    </span>
+                  }
                   placeholder="e.g. Gujarat"
                   value={state}
                   onChange={(e) => setState(e.target.value)}
                   disabled={isSubmitting}
+                  className="input-field border-white/5 bg-black/20 hover:border-white/10 focus:border-[#ff5e5b] focus:ring-1 focus:ring-[#ff5e5b]/20 transition-all duration-300"
                   required
                 />
               </div>
 
               <div className="flex flex-col gap-1.5">
-                <label className="text-xs font-semibold uppercase tracking-wider text-slate-550 dark:text-slate-400">
+                <label className="text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400 flex items-center gap-1.5">
+                  <MapPin size={13} className="text-[#ff5e5b]" />
                   Address Description
                 </label>
                 <textarea
                   placeholder="Full shop/office address..."
                   value={address}
                   onChange={(e) => setAddress(e.target.value)}
-                  className="input-field min-h-[85px] resize-none"
+                  className="input-field min-h-[85px] resize-none transition-all duration-300 border-white/5 bg-black/20 hover:border-white/10 focus:border-[#ff5e5b] focus:ring-1 focus:ring-[#ff5e5b]/20"
                   disabled={isSubmitting}
                   required
                 />
@@ -455,54 +478,89 @@ export default function BranchesPage() {
             <div className="space-y-4">
               <div className="grid gap-4 sm:grid-cols-2">
                 <Input
-                  label="Contact Phone"
+                  label={
+                    <span className="flex items-center gap-1.5 text-slate-400">
+                      <Phone size={13} className="text-[#ff5e5b]" />
+                      Contact Phone
+                    </span>
+                  }
                   placeholder="+91 9876543210"
                   value={phoneNumber}
                   onChange={(e) => setPhoneNumber(e.target.value)}
                   disabled={isSubmitting}
+                  className="input-field border-white/5 bg-black/20 hover:border-white/10 focus:border-[#ff5e5b] focus:ring-1 focus:ring-[#ff5e5b]/20 transition-all duration-300"
                   required
                 />
                 <Input
-                  label="Contact Email"
+                  label={
+                    <span className="flex items-center gap-1.5 text-slate-400">
+                      <Mail size={13} className="text-[#ff5e5b]" />
+                      Contact Email
+                    </span>
+                  }
                   type="email"
                   placeholder="surat@pcinfotech.in"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   disabled={isSubmitting}
+                  className="input-field border-white/5 bg-black/20 hover:border-white/10 focus:border-[#ff5e5b] focus:ring-1 focus:ring-[#ff5e5b]/20 transition-all duration-300"
                   required
                 />
               </div>
 
               <Input
-                label="Working Hours Summary"
+                label={
+                  <span className="flex items-center gap-1.5 text-slate-400">
+                    <Clock size={13} className="text-[#ff5e5b]" />
+                    Working Hours Summary
+                  </span>
+                }
                 value={workingHours}
                 onChange={(e) => setWorkingHours(e.target.value)}
                 disabled={isSubmitting}
+                className="input-field border-white/5 bg-black/20 hover:border-white/10 focus:border-[#ff5e5b] focus:ring-1 focus:ring-[#ff5e5b]/20 transition-all duration-300"
                 required
               />
               
               <Input
-                label="Google Maps Direct Link"
+                label={
+                  <span className="flex items-center gap-1.5 text-slate-400">
+                    <Globe size={13} className="text-[#ff5e5b]" />
+                    Google Maps Direct Link
+                  </span>
+                }
                 placeholder="https://maps.google.com/?cid=..."
                 value={googleMapUrl}
                 onChange={(e) => setGoogleMapUrl(e.target.value)}
                 disabled={isSubmitting}
+                className="input-field border-white/5 bg-black/20 hover:border-white/10 focus:border-[#ff5e5b] focus:ring-1 focus:ring-[#ff5e5b]/20 transition-all duration-300"
                 required
               />
 
               <div className="grid gap-4 sm:grid-cols-3">
                 <div className="sm:col-span-2">
                   <Input
-                    label="Support Scope Summary"
+                    label={
+                      <span className="flex items-center gap-1.5 text-slate-400">
+                        <Shield size={13} className="text-[#ff5e5b]" />
+                        Support Scope Summary
+                      </span>
+                    }
                     placeholder="e.g. AMC, Computer assembly"
                     value={supportScope}
                     onChange={(e) => setSupportScope(e.target.value)}
                     disabled={isSubmitting}
+                    className="input-field border-white/5 bg-black/20 hover:border-white/10 focus:border-[#ff5e5b] focus:ring-1 focus:ring-[#ff5e5b]/20 transition-all duration-300"
                     required
                   />
                 </div>
                 <Select
-                  label="Publishing Status"
+                  label={
+                    <span className="flex items-center gap-1.5 text-slate-400">
+                      <Shield size={13} className="text-[#ff5e5b]" />
+                      Status
+                    </span>
+                  }
                   options={[
                     { label: 'Active', value: 'active' },
                     { label: 'Inactive', value: 'inactive' },
@@ -510,24 +568,25 @@ export default function BranchesPage() {
                   value={status}
                   onChange={(e) => setStatus(e.target.value as 'active' | 'inactive')}
                   disabled={isSubmitting}
+                  className="input-field border-white/5 bg-black/20 hover:border-white/10 focus:border-[#ff5e5b] focus:ring-1 focus:ring-[#ff5e5b]/20 transition-all duration-300"
                 />
               </div>
             </div>
           </div>
 
           {/* Action buttons */}
-          <div className="flex justify-end gap-3 border-t border-primary-border pt-4 mt-6">
+          <div className="flex justify-end gap-3 border-t border-white/5 pt-4 mt-6">
             <button
               type="button"
               onClick={() => setIsModalOpen(false)}
-              className="btn-secondary text-xs h-10"
+              className="btn-secondary text-xs h-10 px-5"
               disabled={isSubmitting}
             >
               Cancel
             </button>
             <button
               type="submit"
-              className="btn-primary text-xs h-10 glow-accent"
+              className="btn-premium-brand text-xs h-10 px-6 font-bold"
               disabled={isSubmitting}
             >
               {isSubmitting ? 'Processing...' : editBranch ? 'Update Outlet' : 'Add Outlet'}

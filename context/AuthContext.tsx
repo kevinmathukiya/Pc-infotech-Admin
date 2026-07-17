@@ -47,7 +47,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   const initAuth = async () => {
     try {
-      const isPublicPath = pathname === '/' || pathname === '/forgot-password';
+      const isPublicPath = pathname === '/' || pathname === '/forgot-password' || pathname?.startsWith('/reset-password');
       if (isPublicPath) {
         setLoading(false);
         return;
@@ -113,7 +113,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   // Auth routing protection
   useEffect(() => {
     if (!loading && !authenticating) {
-      const isPublicPath = pathname === '/' || pathname === '/forgot-password';
+      const isPublicPath = pathname === '/' || pathname === '/forgot-password' || pathname?.startsWith('/reset-password');
       if (!user && !isPublicPath) {
         router.push('/');
       } else if (user && isPublicPath) {

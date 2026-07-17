@@ -21,7 +21,7 @@ export const ServiceForm: React.FC<ServiceFormProps> = ({
   isEditMode = false,
 }) => {
   const router = useRouter();
-  const [brands, setBrands] = useState<any[]>([]);
+  const brands = ['HP', 'Canon'];
   const [loadingOptions, setLoadingOptions] = useState(true);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -48,9 +48,6 @@ export const ServiceForm: React.FC<ServiceFormProps> = ({
     const loadDependencies = async () => {
       try {
         setLoadingOptions(true);
-        const brandsRes = await api.get('/brands?limit=100');
-        setBrands(brandsRes.data?.data?.brands || []);
-
         if (isEditMode && initialData) {
           setName(initialData.name || '');
           setServiceCategory(initialData.serviceCategory || '');
@@ -63,7 +60,7 @@ export const ServiceForm: React.FC<ServiceFormProps> = ({
           setFeatures(initialData.features || []);
           setFaq(initialData.faq || []);
 
-          const brandId = typeof initialData.brand === 'object' ? initialData.brand?._id : initialData.brand;
+          const brandId = initialData.brand;
           setSelectedBrand(brandId || '');
         }
       } catch (error) {
@@ -201,7 +198,7 @@ export const ServiceForm: React.FC<ServiceFormProps> = ({
                 label="Associated Brand (Optional)"
                 options={[
                   { label: 'None', value: '' },
-                  ...brands.map((b) => ({ label: b.name, value: b._id })),
+                  ...brands.map((b) => ({ label: b, value: b })),
                 ]}
                 value={selectedBrand}
                 onChange={(e) => setSelectedBrand(e.target.value)}

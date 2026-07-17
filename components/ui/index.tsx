@@ -52,9 +52,9 @@ export const Modal: React.FC<ModalProps> = ({
 
       {/* Modal Dialog Content */}
       <div
-        className={`relative z-10 w-full ${sizeClasses[size]} rounded-2xl border border-primary-border bg-primary-slate p-6 shadow-2xl transition-all duration-300 transform scale-100 animate-in fade-in zoom-in-95`}
+        className={`relative z-10 w-full ${sizeClasses[size]} rounded-2xl border border-white/5 bg-primary-slate/95 backdrop-blur-xl p-6 shadow-2xl transition-all duration-300 transform scale-100 animate-in fade-in zoom-in-95`}
       >
-        <div className="flex items-center justify-between border-b border-primary-border pb-4 mb-4">
+        <div className="flex items-center justify-between border-b border-white/5 pb-4 mb-4">
           <h3 className="text-lg font-semibold text-foreground tracking-wide">{title}</h3>
           <button
             onClick={onClose}
@@ -73,7 +73,7 @@ export const Modal: React.FC<ModalProps> = ({
 
 // Input Field Component
 interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
-  label?: string;
+  label?: React.ReactNode;
   error?: string;
 }
 
@@ -100,7 +100,7 @@ Input.displayName = 'Input';
 
 // Select Component
 interface SelectProps extends React.SelectHTMLAttributes<HTMLSelectElement> {
-  label?: string;
+  label?: React.ReactNode;
   error?: string;
   options: { label: string; value: string | number }[];
 }

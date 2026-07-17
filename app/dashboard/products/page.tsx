@@ -32,7 +32,7 @@ interface Product {
   isFeatured: boolean;
   isNewArrival: boolean;
   isBestSeller: boolean;
-  brand?: { _id: string; name: string };
+  brand?: 'HP' | 'Canon';
   category?: { _id: string; name: string };
   thumbnail: { url: string; publicId: string };
 }
@@ -49,7 +49,7 @@ interface Category {
 
 export default function ProductsCatalogPage() {
   const [products, setProducts] = useState<Product[]>([]);
-  const [brands, setBrands] = useState<Brand[]>([]);
+  const brands = ['HP', 'Canon'];
   const [categories, setCategories] = useState<Category[]>([]);
   const [total, setTotal] = useState(0);
   const [loading, setLoading] = useState(true);
@@ -65,11 +65,7 @@ export default function ProductsCatalogPage() {
 
   const fetchFilters = async () => {
     try {
-      const [brandsRes, categoriesRes] = await Promise.all([
-        api.get('/brands?limit=100'),
-        api.get('/categories?limit=100'),
-      ]);
-      setBrands(brandsRes.data?.data?.brands || []);
+      const categoriesRes = await api.get('/categories?limit=100');
       setCategories(categoriesRes.data?.data?.categories || []);
     } catch (error) {
       console.error('Failed to load filter catalogs', error);
@@ -183,7 +179,7 @@ export default function ProductsCatalogPage() {
             label="Filter Brand"
             options={[
               { label: 'All Brands', value: '' },
-              ...brands.map((b) => ({ label: b.name, value: b._id })),
+              ...brands.map((b) => ({ label: b, value: b })),
             ]}
             value={brandFilter}
             onChange={(e) => {
@@ -280,7 +276,7 @@ export default function ProductsCatalogPage() {
                             </h3>
                           </Link>
                           <div className="flex items-center gap-1.5 mt-0.5">
-                            <span className="text-[10px] text-slate-500 dark:text-slate-400 font-medium">{product.brand?.name || 'No Brand'}</span>
+                            <span className="text-[10px] text-slate-500 dark:text-slate-400 font-medium">{product.brand || 'No Brand'}</span>
                             <span className="text-[9px] text-slate-500">•</span>
                             <span className="text-[10px] text-slate-500 dark:text-slate-400 font-medium">{product.category?.name || 'No Category'}</span>
                           </div>

@@ -49,7 +49,7 @@ interface SparePart {
   discountPrice?: number;
   stockQuantity: number;
   status: 'active' | 'inactive';
-  brand?: { _id: string; name: string };
+  brand?: 'HP' | 'Canon';
   category?: { _id: string; name: string };
   product?: { _id: string; name: string; slug?: string };
   thumbnail: { url: string; publicId: string };
@@ -68,7 +68,7 @@ interface Category {
 
 export default function SparePartsCatalogPage() {
   const [spareParts, setSpareParts] = useState<SparePart[]>([]);
-  const [brands, setBrands] = useState<Brand[]>([]);
+  const brands = ['HP', 'Canon'];
   const [categories, setCategories] = useState<Category[]>([]);
   const [filteredCategories, setFilteredCategories] = useState<Category[]>([]);
   const [products, setProducts] = useState<any[]>([]);
@@ -87,12 +87,10 @@ export default function SparePartsCatalogPage() {
 
   const fetchFilters = async () => {
     try {
-      const [brandsRes, categoriesRes, productsRes] = await Promise.all([
-        api.get('/brands?limit=100'),
+      const [categoriesRes, productsRes] = await Promise.all([
         api.get('/categories?limit=100'),
         api.get('/products?limit=100'),
       ]);
-      setBrands(brandsRes.data?.data?.brands || []);
       setCategories(categoriesRes.data?.data?.categories || []);
       setProducts(productsRes.data?.data?.products || []);
     } catch (error) {
@@ -135,10 +133,10 @@ export default function SparePartsCatalogPage() {
     if (brandFilter) {
       const filtered = categories.filter((cat) => {
         const catBrandId = typeof cat.brand === 'object' ? (cat.brand as any)?._id : cat.brand;
-        return catBrandId === brandFilter;
+        return !catBrandId || catBrandId === brandFilter;
       });
       setFilteredCategories(filtered);
-
+ 
       const stillValid = filtered.some((cat) => cat._id === categoryFilter);
       if (!stillValid) {
         setCategoryFilter('');
@@ -146,20 +144,20 @@ export default function SparePartsCatalogPage() {
     } else {
       setFilteredCategories(categories);
     }
-  }, [brandFilter, categories]);
-
+  }, [brandFilter, categories, categoryFilter]);
+ 
   // Dynamically filter products based on brand & category selection
   useEffect(() => {
     if (brandFilter && categoryFilter) {
       const filtered = products.filter((prod) => {
-        const prodBrandId = typeof prod.brand === 'object' ? prod.brand?._id : prod.brand;
+        const prodBrandId = prod.brand;
         return (
           prodBrandId === brandFilter &&
           isMatchingCategory(categoryFilter, prod.category, categories)
         );
       });
       setFilteredProducts(filtered);
-
+ 
       const stillValid = filtered.some((prod) => prod._id === productFilter);
       if (!stillValid) {
         setProductFilter('');
@@ -168,7 +166,7 @@ export default function SparePartsCatalogPage() {
       setFilteredProducts([]);
       setProductFilter('');
     }
-  }, [brandFilter, categoryFilter, products, categories]);
+  }, [brandFilter, categoryFilter, products, categories, productFilter]);
 
   useEffect(() => {
     fetchSpareParts();
@@ -243,7 +241,7 @@ export default function SparePartsCatalogPage() {
             label="Filter Brand"
             options={[
               { label: 'All Brands', value: '' },
-              ...brands.map((b) => ({ label: b.name, value: b._id })),
+              ...brands.map((b) => ({ label: b, value: b })),
             ]}
             value={brandFilter}
             onChange={(e) => {
@@ -340,7 +338,7 @@ export default function SparePartsCatalogPage() {
                             </h3>
                           </Link>
                           <div className="flex items-center gap-1.5 mt-0.5">
-                            <span className="text-[10px] text-slate-500 dark:text-slate-400 font-medium">{part.brand?.name || 'No Brand'}</span>
+                            <span className="text-[10px] text-slate-500 dark:text-slate-400 font-medium">{part.brand || 'No Brand'}</span>
                             <span className="text-[9px] text-slate-500">•</span>
                             <span className="text-[10px] text-slate-500 dark:text-slate-400 font-medium">{part.category?.name || 'No Category'}</span>
                           </div>

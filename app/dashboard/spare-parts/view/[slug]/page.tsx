@@ -125,16 +125,6 @@ export default function ViewSparePartPage() {
             {/* Gallery Thumbs */}
             {sparePart.images && sparePart.images.length > 0 && (
               <div className="flex flex-wrap gap-2 mt-4 justify-center">
-                {sparePart.thumbnail && (
-                  <button
-                    onClick={() => setActiveImage(sparePart.thumbnail.url)}
-                    className={`h-12 w-12 rounded border p-0.5 flex items-center justify-center bg-primary-slate ${
-                      activeImage === sparePart.thumbnail.url ? 'border-[#ff5e5b]' : 'border-primary-border'
-                    }`}
-                  >
-                    <img src={sparePart.thumbnail.url} alt="Cover thumb" className="max-h-full max-w-full object-contain" />
-                  </button>
-                )}
                 {sparePart.images.map((img: any, idx: number) => (
                   <button
                     key={img.publicId || idx}

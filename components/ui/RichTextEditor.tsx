@@ -37,20 +37,17 @@ export const RichTextEditor: React.FC<RichTextEditorProps> = ({
   useEffect(() => {
     if (editorRef.current && isMounted) {
       if (editorRef.current.innerHTML !== value) {
-        editorRef.current.innerHTML = value || '<p><br></p>';
+        editorRef.current.innerHTML = value || '';
       }
     }
   }, [value, isMounted]);
 
-  const handleInput = () => {
-    if (editorRef.current) {
-      onChange(editorRef.current.innerHTML);
-    }
-  };
 
   const executeCommand = (command: string, arg: string = '') => {
     document.execCommand(command, false, arg);
-    handleInput();
+    if (editorRef.current) {
+      onChange(editorRef.current.innerHTML);
+    }
   };
 
   if (!isMounted) {
@@ -79,7 +76,7 @@ export const RichTextEditor: React.FC<RichTextEditorProps> = ({
           <button
             type="button"
             onClick={() => executeCommand('bold')}
-            className="p-1.5 rounded text-slate-500 dark:text-slate-400 hover:text-foreground hover:bg-primary-border transition-colors"
+            className="p-1.5 rounded text-slate-550 dark:text-slate-400 hover:text-foreground hover:bg-primary-border transition-colors"
             title="Bold"
           >
             <Bold size={16} />
@@ -87,7 +84,7 @@ export const RichTextEditor: React.FC<RichTextEditorProps> = ({
           <button
             type="button"
             onClick={() => executeCommand('italic')}
-            className="p-1.5 rounded text-slate-500 dark:text-slate-400 hover:text-foreground hover:bg-primary-border transition-colors"
+            className="p-1.5 rounded text-slate-550 dark:text-slate-400 hover:text-foreground hover:bg-primary-border transition-colors"
             title="Italic"
           >
             <Italic size={16} />
@@ -153,8 +150,8 @@ export const RichTextEditor: React.FC<RichTextEditorProps> = ({
         <div
           ref={editorRef}
           contentEditable
-          onInput={handleInput}
-          onBlur={handleInput}
+          onInput={(e) => onChange(e.currentTarget.innerHTML)}
+          onBlur={(e) => onChange(e.currentTarget.innerHTML)}
           className="min-h-[160px] max-h-[300px] overflow-y-auto p-4 outline-none text-foreground/90 text-sm font-sans leading-relaxed focus:text-foreground"
           style={{ whiteSpace: 'pre-wrap' }}
         />

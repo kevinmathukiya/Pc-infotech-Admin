@@ -21,7 +21,7 @@ export const ProductForm: React.FC<ProductFormProps> = ({
   isEditMode = false,
 }) => {
   const router = useRouter();
-  const [brands, setBrands] = useState<any[]>([]);
+  const brands = ['HP', 'Canon'];
   const [allCategories, setAllCategories] = useState<any[]>([]);
   const [filteredCategories, setFilteredCategories] = useState<any[]>([]);
   const [loadingOptions, setLoadingOptions] = useState(true);
@@ -55,24 +55,16 @@ export const ProductForm: React.FC<ProductFormProps> = ({
   const [metaDescription, setMetaDescription] = useState('');
 
   // Files
-  const [thumbnailFile, setThumbnailFile] = useState<File | null>(null);
   const [imageFiles, setImageFiles] = useState<File[]>([]);
-  const [brochureFile, setBrochureFile] = useState<File | null>(null);
 
-  // Load brands and categories
+  // Load categories
   useEffect(() => {
     const loadDependencies = async () => {
       try {
         setLoadingOptions(true);
-        const [brandsRes, categoriesRes] = await Promise.all([
-          api.get('/brands?limit=100'),
-          api.get('/categories?limit=100'),
-        ]);
-
-        const brandList = brandsRes.data?.data?.brands || [];
+        const categoriesRes = await api.get('/categories?limit=100');
         const categoryList = categoriesRes.data?.data?.categories || [];
 
-        setBrands(brandList);
         setAllCategories(categoryList);
 
         // Pre-fill if edit mode
@@ -95,16 +87,14 @@ export const ProductForm: React.FC<ProductFormProps> = ({
           setMetaTitle(initialData.metaTitle || '');
           setMetaDescription(initialData.metaDescription || '');
 
-          const brandId = typeof initialData.brand === 'object' ? initialData.brand?._id : initialData.brand;
+          const brandId = initialData.brand;
           const categoryId = typeof initialData.category === 'object' ? initialData.category?._id : initialData.category;
           
           setSelectedBrand(brandId || '');
           setSelectedCategory(categoryId || '');
         } else {
           // Defaults for new product
-          if (brandList.length > 0) {
-            setSelectedBrand(brandList[0]._id);
-          }
+          setSelectedBrand('HP');
         }
       } catch (error) {
         console.error(error);
@@ -121,7 +111,7 @@ export const ProductForm: React.FC<ProductFormProps> = ({
     if (selectedBrand) {
       const filtered = allCategories.filter((cat) => {
         const catBrandId = typeof cat.brand === 'object' ? cat.brand?._id : cat.brand;
-        return catBrandId === selectedBrand;
+        return !catBrandId || catBrandId === selectedBrand;
       });
       setFilteredCategories(filtered);
 
@@ -134,7 +124,7 @@ export const ProductForm: React.FC<ProductFormProps> = ({
       setFilteredCategories([]);
       setSelectedCategory('');
     }
-  }, [selectedBrand, allCategories]);
+  }, [selectedBrand, allCategories, selectedCategory]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -144,8 +134,8 @@ export const ProductForm: React.FC<ProductFormProps> = ({
       return;
     }
 
-    if (!isEditMode && (!thumbnailFile || imageFiles.length === 0)) {
-      toast.error('A thumbnail and at least one gallery image are required.');
+    if (!isEditMode && imageFiles.length === 0) {
+      toast.error('At least one gallery image is required.');
       return;
     }
 
@@ -175,16 +165,10 @@ export const ProductForm: React.FC<ProductFormProps> = ({
       formData.append('features', JSON.stringify(features));
 
       // Append files
-      if (thumbnailFile) {
-        formData.append('thumbnail', thumbnailFile);
-      }
       if (imageFiles.length > 0) {
         imageFiles.forEach((file) => {
           formData.append('images', file);
         });
-      }
-      if (brochureFile) {
-        formData.append('brochure', brochureFile);
       }
 
       if (isEditMode) {
@@ -308,7 +292,7 @@ export const ProductForm: React.FC<ProductFormProps> = ({
             <div className="grid gap-4 sm:grid-cols-2">
               <Select
                 label="Brand"
-                options={brands.map((b) => ({ label: b.name, value: b._id }))}
+                options={brands.map((b) => ({ label: b, value: b }))}
                 value={selectedBrand}
                 onChange={(e) => setSelectedBrand(e.target.value)}
                 disabled={isSubmitting}
@@ -429,13 +413,6 @@ export const ProductForm: React.FC<ProductFormProps> = ({
               Product Media Uploads
             </h3>
 
-            {/* Thumbnail upload */}
-            <FileUploadDropzone
-              label="Thumbnail Cover (Single Image)"
-              onChange={(file) => setThumbnailFile(file as File | null)}
-              existingPreviews={initialData?.thumbnail?.url}
-            />
-
             {/* Gallery Upload */}
             <FileUploadDropzone
               label="Gallery Images (Up to 10 images)"
@@ -443,14 +420,6 @@ export const ProductForm: React.FC<ProductFormProps> = ({
               maxFiles={10}
               onChange={(files) => setImageFiles(files as File[])}
               existingPreviews={initialData?.images?.map((img: any) => img.url)}
-            />
-
-            {/* Brochure PDF */}
-            <FileUploadDropzone
-              label="Product Brochure (Single PDF File)"
-              accept="application/pdf"
-              onChange={(file) => setBrochureFile(file as File | null)}
-              existingPreviews={initialData?.brochure?.url}
             />
           </div>
         </div>

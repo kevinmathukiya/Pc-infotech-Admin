@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react';
 import api from '../../../lib/api';
 import { toast } from 'react-hot-toast';
 import { Modal, Input, Select } from '../../../components/ui';
-import { Plus, Search, Edit, Trash2, Layers, Calendar } from 'lucide-react';
+import { Plus, Search, Edit, Trash2, Layers, Calendar, FolderOpen, Award, Activity, AlignLeft } from 'lucide-react';
 
 interface Category {
   _id: string;
@@ -17,13 +17,12 @@ interface Category {
 }
 
 interface Brand {
-  _id: string;
   name: string;
 }
 
 export default function CategoriesPage() {
   const [categories, setCategories] = useState<Category[]>([]);
-  const [brands, setBrands] = useState<Brand[]>([]);
+  const brands = ['HP', 'Canon'];
   const [total, setTotal] = useState(0);
   const [loading, setLoading] = useState(true);
 
@@ -44,14 +43,7 @@ export default function CategoriesPage() {
   const [selectedBrand, setSelectedBrand] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const fetchBrands = async () => {
-    try {
-      const res = await api.get('/brands?limit=100');
-      setBrands(res.data?.data?.brands || []);
-    } catch (error) {
-      console.error('Failed to load brands options', error);
-    }
-  };
+
 
   const fetchCategories = async () => {
     try {
@@ -76,10 +68,6 @@ export default function CategoriesPage() {
   };
 
   useEffect(() => {
-    fetchBrands();
-  }, []);
-
-  useEffect(() => {
     fetchCategories();
   }, [page, brandFilter]);
 
@@ -94,7 +82,7 @@ export default function CategoriesPage() {
     setName('');
     setDescription('');
     setStatus('active');
-    setSelectedBrand(brands[0]?._id || '');
+    setSelectedBrand(brands[0] || 'HP');
     setIsModalOpen(true);
   };
 
@@ -173,7 +161,7 @@ export default function CategoriesPage() {
         </div>
         <button
           onClick={openCreateModal}
-          className="btn-primary flex items-center justify-center gap-1.5 self-start glow-accent"
+          className="btn-premium-brand flex items-center justify-center gap-1.5 self-start text-xs font-bold"
         >
           <Plus size={16} />
           Create Category
@@ -181,7 +169,7 @@ export default function CategoriesPage() {
       </div>
 
       {/* Query Filters */}
-      <div className="glass-panel border border-primary-border rounded-xl p-4 flex flex-col md:flex-row gap-4 justify-between items-stretch">
+      <div className="glass-card-premium rounded-2xl p-4 flex flex-col md:flex-row gap-4 justify-between items-stretch border border-white/5">
         <form onSubmit={handleSearch} className="flex-1 flex gap-2">
           <div className="relative flex-1">
             <input
@@ -189,21 +177,21 @@ export default function CategoriesPage() {
               placeholder="Search category name, description..."
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              className="input-field pl-10"
+              className="input-field pl-10 h-10 w-full"
             />
-            <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-500" size={16} />
+            <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400" size={16} />
           </div>
-          <button type="submit" className="btn-secondary px-5 flex items-center gap-1">
+          <button type="submit" className="btn-secondary h-10 px-5 flex items-center gap-1.5 shrink-0">
             <Search size={14} />
             Find
           </button>
         </form>
         
-        <div className="w-full md:w-56">
+        <div className="w-full md:w-52 h-10 select-wrapper">
           <Select
             options={[
               { label: 'All Brands', value: '' },
-              ...brands.map((b) => ({ label: b.name, value: b._id })),
+              ...brands.map((b) => ({ label: b, value: b })),
             ]}
             value={brandFilter}
             onChange={(e) => {
@@ -235,7 +223,7 @@ export default function CategoriesPage() {
               </thead>
               <tbody className="divide-y divide-primary-border text-sm text-foreground">
                 {categories.map((category) => {
-                  const brandName = typeof category.brand === 'object' ? category.brand?.name : 'N/A';
+                  const brandName = typeof category.brand === 'object' ? category.brand?.name : category.brand || 'N/A';
                   return (
                     <tr key={category._id} className="hover:bg-primary-card transition-colors">
                       <td className="py-4 px-6 font-semibold text-foreground">{category.name}</td>
@@ -321,67 +309,82 @@ export default function CategoriesPage() {
         size="lg"
       >
         <form onSubmit={handleSubmit} className="space-y-4 pt-1">
-          <div className="grid gap-5 md:grid-cols-2">
-            {/* Left Column */}
-            <div className="space-y-4">
-              <Input
-                label="Category Name"
-                placeholder="e.g. Laptops, Motherboards, Monitors"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-                disabled={isSubmitting}
-                required
-              />
+          <div className="space-y-4">
+            <Input
+              label={
+                <span className="flex items-center gap-1.5 text-slate-400">
+                  <FolderOpen size={13} className="text-[#ff5e5b]" />
+                  Category Name
+                </span>
+              }
+              placeholder="e.g. Laptops, Motherboards, Monitors"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              disabled={isSubmitting}
+              className="input-field border-white/5 bg-black/20 hover:border-white/10 focus:border-[#ff5e5b] focus:ring-1 focus:ring-[#ff5e5b]/20 transition-all duration-300"
+              required
+            />
 
-              <Select
-                label="Associated Brand"
-                options={brands.map((b) => ({ label: b.name, value: b._id }))}
-                value={selectedBrand}
-                onChange={(e) => setSelectedBrand(e.target.value)}
-                disabled={isSubmitting}
-                required
-              />
+            <Select
+              label={
+                <span className="flex items-center gap-1.5 text-slate-400">
+                  <Award size={13} className="text-[#ff5e5b]" />
+                  Associated Brand
+                </span>
+              }
+              options={brands.map((b) => ({ label: b, value: b }))}
+              value={selectedBrand}
+              onChange={(e) => setSelectedBrand(e.target.value)}
+              disabled={isSubmitting}
+              className="input-field border-white/5 bg-black/20 hover:border-white/10 focus:border-[#ff5e5b] focus:ring-1 focus:ring-[#ff5e5b]/20 transition-all duration-300"
+              required
+            />
 
-              <Select
-                label="Status"
-                options={[
-                  { label: 'Active', value: 'active' },
-                  { label: 'Inactive', value: 'inactive' },
-                ]}
-                value={status}
-                onChange={(e) => setStatus(e.target.value as 'active' | 'inactive')}
-                disabled={isSubmitting}
-              />
-            </div>
+            <Select
+              label={
+                <span className="flex items-center gap-1.5 text-slate-400">
+                  <Activity size={13} className="text-[#ff5e5b]" />
+                  Status
+                </span>
+              }
+              options={[
+                { label: 'Active', value: 'active' },
+                { label: 'Inactive', value: 'inactive' },
+              ]}
+              value={status}
+              onChange={(e) => setStatus(e.target.value as 'active' | 'inactive')}
+              disabled={isSubmitting}
+              className="input-field border-white/5 bg-black/20 hover:border-white/10 focus:border-[#ff5e5b] focus:ring-1 focus:ring-[#ff5e5b]/20 transition-all duration-300"
+            />
 
-            {/* Right Column */}
-            <div className="flex flex-col gap-1.5 h-full">
-              <label className="text-xs font-semibold uppercase tracking-wider text-slate-550 dark:text-slate-400">
+            <div className="flex flex-col gap-1.5">
+              <label className="text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400 flex items-center gap-1.5">
+                <AlignLeft size={13} className="text-[#ff5e5b]" />
                 Description (Optional)
               </label>
               <textarea
                 placeholder="Provide a detailed category outline..."
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
-                className="input-field flex-1 min-h-[160px] md:min-h-0 resize-none"
+                className="input-field min-h-[100px] resize-none transition-all duration-300 border-white/5 bg-black/20 hover:border-white/10 focus:border-[#ff5e5b] focus:ring-1 focus:ring-[#ff5e5b]/20"
                 disabled={isSubmitting}
               />
             </div>
           </div>
 
           {/* Action buttons */}
-          <div className="flex justify-end gap-3 border-t border-primary-border pt-4 mt-6">
+          <div className="flex justify-end gap-3 border-t border-white/5 pt-4 mt-6">
             <button
               type="button"
               onClick={() => setIsModalOpen(false)}
-              className="btn-secondary text-xs h-10"
+              className="btn-secondary text-xs h-10 px-5"
               disabled={isSubmitting}
             >
               Cancel
             </button>
             <button
               type="submit"
-              className="btn-primary text-xs h-10 glow-accent"
+              className="btn-premium-brand text-xs h-10 px-6 font-bold"
               disabled={isSubmitting}
             >
               {isSubmitting ? 'Processing...' : editCategory ? 'Update' : 'Create'}

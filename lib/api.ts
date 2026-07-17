@@ -23,7 +23,7 @@ export const setAccessToken = (token: string | null) => {
 export const getAccessToken = () => accessToken;
 
 const api = axios.create({
-  baseURL: 'http://localhost:5000/api/v1',
+  baseURL: process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api/v1',
   withCredentials: true,
 });
 
@@ -59,7 +59,7 @@ api.interceptors.response.use(
         isRefreshing = true;
         try {
           const response = await axios.post(
-            'http://localhost:5000/api/v1/auth/refresh-token',
+            (process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api/v1') + '/auth/refresh-token',
             {},
             { withCredentials: true }
           );

@@ -46,51 +46,54 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="flex min-h-screen w-screen items-center justify-center bg-background px-4 transition-colors duration-300">
-      {/* Background radial glow */}
-      <div className="absolute top-1/4 left-1/4 h-96 w-96 -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#ff5e5b]/5 blur-[120px] pointer-events-none" />
-      <div className="absolute bottom-1/4 right-1/4 h-96 w-96 translate-x-1/2 translate-y-1/2 rounded-full bg-sky-500/5 blur-[120px] pointer-events-none" />
+    <div className="flex min-h-screen w-screen items-center justify-center bg-background px-4 transition-colors duration-300 relative overflow-hidden grid-overlay">
+      {/* Background drifting mesh glows using brand colors */}
+      <div className="absolute top-10 left-10 h-[350px] w-[350px] rounded-full bg-[#ff5e5b]/8 blur-[100px] pointer-events-none animate-pulse-slow" />
+      <div className="absolute bottom-10 right-10 h-[400px] w-[400px] rounded-full bg-sky-500/8 blur-[120px] pointer-events-none animate-float" />
+      <div className="absolute top-1/3 right-1/4 h-[300px] w-[300px] rounded-full bg-emerald-500/5 blur-[90px] pointer-events-none animate-float-delayed" />
+      <div className="absolute bottom-1/3 left-1/4 h-[250px] w-[250px] rounded-full bg-violet-600/5 blur-[80px] pointer-events-none animate-pulse-slow" />
 
       {/* Login Card */}
-      <div className="glass-panel w-full max-w-md rounded-2xl p-8 border border-primary-border shadow-2xl relative">
-
+      <div className="glass-card-premium w-full max-w-md rounded-2xl p-8 border border-white/5 shadow-2xl relative z-10 transition-all duration-300 animate-fade-in-up">
         {/* Header */}
         <div className="flex flex-col items-center text-center mb-8">
-          <div className="flex h-16 w-16 items-center justify-center rounded-2xl border border-primary-border bg-primary-deep p-1 mb-4 shadow-lg">
+          <div className="flex h-16 w-16 items-center justify-center rounded-xl border border-white/5 bg-black/40 p-2 mb-4">
             <img
               src="/image/pc_logo.png"
               alt="PC INFOTECH Logo"
               className="max-h-full max-w-full object-contain"
             />
           </div>
-          <h2 className="text-2xl font-bold tracking-wide text-foreground uppercase">PC INFOTECH</h2>
-          <p className="text-xs text-slate-500 dark:text-slate-400 font-semibold uppercase tracking-widest mt-1">Admin Portal</p>
+          <h2 className="text-2xl font-black tracking-wide text-foreground uppercase bg-gradient-to-r from-white to-slate-350 bg-clip-text text-transparent">PC INFOTECH</h2>
+          <p className="text-[10px] text-[#ff5e5b] font-bold uppercase tracking-widest mt-1">Admin Portal</p>
         </div>
 
         {/* Credentials Form */}
-        <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
+        <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
           {/* Email input */}
-          <div className="flex flex-col gap-1.5">
-            <label className="text-xs font-semibold uppercase tracking-wider text-slate-400 flex items-center gap-1.5">
-              <Mail size={13} />
+          <div className="flex flex-col gap-2">
+            <label className="text-[10px] font-bold uppercase tracking-widest text-slate-400 flex items-center gap-2">
+              <Mail size={12} className="text-[#ff5e5b]" />
               Email Address
             </label>
-            <input
-              type="email"
-              placeholder="Enter your admin email"
-              {...register('email')}
-              className={`input-field ${errors.email ? 'border-red-500' : ''}`}
-              disabled={isSubmitting}
-            />
+            <div className="relative">
+              <input
+                type="email"
+                placeholder="Enter your admin email"
+                {...register('email')}
+                className={`input-field pr-4 transition-all duration-300 border-white/5 bg-black/20 hover:border-white/10 focus:border-[#ff5e5b] focus:ring-1 focus:ring-[#ff5e5b]/20 ${errors.email ? 'border-red-500/50 focus:border-red-500' : ''}`}
+                disabled={isSubmitting}
+              />
+            </div>
             {errors.email && (
-              <span className="text-xs text-red-400 font-medium">{errors.email.message}</span>
+              <span className="text-xs text-red-405 font-medium">{errors.email.message}</span>
             )}
           </div>
 
           {/* Password input */}
-          <div className="flex flex-col gap-1.5">
-            <label className="text-xs font-semibold uppercase tracking-wider text-slate-400 flex items-center gap-1.5">
-              <Lock size={13} />
+          <div className="flex flex-col gap-2">
+            <label className="text-[10px] font-bold uppercase tracking-widest text-slate-400 flex items-center gap-2">
+              <Lock size={12} className="text-[#ff5e5b]" />
               Password
             </label>
             <div className="relative">
@@ -98,27 +101,27 @@ export default function LoginPage() {
                 type={showPassword ? 'text' : 'password'}
                 placeholder="••••••••"
                 {...register('password')}
-                className={`input-field pr-11 ${errors.password ? 'border-red-500' : ''}`}
+                className={`input-field pr-11 transition-all duration-300 border-white/5 bg-black/20 hover:border-white/10 focus:border-[#ff5e5b] focus:ring-1 focus:ring-[#ff5e5b]/20 ${errors.password ? 'border-red-500/50 focus:border-red-500' : ''}`}
                 disabled={isSubmitting}
               />
               <button
                 type="button"
                 onClick={() => setShowPassword(!showPassword)}
-                className="absolute right-3.5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-200 transition-colors"
+                className="absolute right-3.5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-white transition-colors"
                 tabIndex={-1}
               >
                 {showPassword ? <EyeOff size={16} /> : <Eye size={16} />}
               </button>
             </div>
             {errors.password && (
-              <span className="text-xs text-red-400 font-medium">{errors.password.message}</span>
+              <span className="text-xs text-red-405 font-medium">{errors.password.message}</span>
             )}
           </div>
 
           {/* Submit Button */}
           <button
             type="submit"
-            className="btn-primary w-full flex items-center justify-center gap-2 mt-2 h-11 text-base font-semibold glow-accent"
+            className="btn-premium-brand w-full flex items-center justify-center gap-2 mt-4 h-12 text-sm uppercase tracking-wider font-bold"
             disabled={isSubmitting}
           >
             {isSubmitting ? (
@@ -132,18 +135,18 @@ export default function LoginPage() {
           </button>
         </form>
 
-        <div className="mt-4 text-center">
+        <div className="mt-5 text-center">
           <Link
             href="/forgot-password"
-            className="text-primary-light hover:text-primary-light/80 transition-colors font-semibold"
+            className="text-xs text-slate-400 hover:text-[#ff5e5b] transition-colors font-semibold tracking-wide"
           >
             Forgot your password?
           </Link>
         </div>
 
-        <div className="mt-8 text-center border-t border-primary-border pt-4">
-          <p className="text-[11px] text-slate-500 font-semibold tracking-wider uppercase">
-            © 2026 PC INFOTECH • SYSTEM ADMINISTRATION
+        <div className="mt-8 text-center border-t border-white/5 pt-5">
+          <p className="text-[10px] text-slate-500 font-semibold tracking-widest uppercase">
+            © 2026 PC INFOTECH • SECURE SYSTEM MANAGEMENT
           </p>
         </div>
       </div>

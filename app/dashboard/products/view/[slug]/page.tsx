@@ -125,17 +125,6 @@ export default function ViewProductPage() {
             {/* Gallery Thumbs */}
             {product.images && product.images.length > 0 && (
               <div className="flex flex-wrap gap-2 mt-4 justify-center">
-                {/* Add thumbnail to gallery selection */}
-                {product.thumbnail && (
-                  <button
-                    onClick={() => setActiveImage(product.thumbnail.url)}
-                    className={`h-12 w-12 rounded border p-0.5 flex items-center justify-center bg-primary-slate ${
-                      activeImage === product.thumbnail.url ? 'border-[#ff5e5b]' : 'border-primary-border'
-                    }`}
-                  >
-                    <img src={product.thumbnail.url} alt="Cover thumb" className="max-h-full max-w-full object-contain" />
-                  </button>
-                )}
                 {product.images.map((img: any, idx: number) => (
                   <button
                     key={img.publicId || idx}

@@ -76,30 +76,36 @@ export const Header: React.FC<HeaderProps> = ({ setSidebarOpen }) => {
         {/* Theme Toggle Button */}
         <button
           onClick={toggleTheme}
-          className="flex h-10 w-10 items-center justify-center rounded-xl bg-primary-card border border-primary-border text-slate-500 dark:text-slate-400 hover:bg-primary-border hover:text-foreground transition-all duration-200"
+          className="flex h-9 w-9 items-center justify-center rounded-lg bg-black/10 hover:bg-black/20 dark:bg-white/5 dark:hover:bg-white/10 border border-white/5 text-slate-400 hover:text-foreground transition-all duration-200 hover:scale-105 cursor-pointer"
           aria-label="Toggle Theme"
         >
-          {theme === 'dark' ? <Sun size={18} /> : <Moon size={18} />}
+          {theme === 'dark' ? <Sun size={16} /> : <Moon size={16} />}
         </button>
 
-        {/* Admin Badging */}
-        <div className="hidden sm:flex flex-col text-right">
-          <span className="text-sm font-semibold text-foreground">
-            {user?.name || 'Administrator'}
-          </span>
-          <span className="text-xs text-[#ff5e5b] font-medium flex items-center justify-end gap-1">
-            <ShieldCheck size={12} />
-            {user?.role === 'admin' ? 'Super Admin' : 'System Staff'}
-          </span>
-        </div>
+        {/* Divider */}
+        <div className="h-6 w-[1px] bg-primary-border" />
 
-        {/* Profile Details Link */}
-        <Link
-          href="/dashboard/profile"
-          className="flex h-10 w-10 items-center justify-center rounded-xl bg-primary-card border border-primary-border text-[#ff5e5b] hover:bg-primary-border transition-colors"
-        >
-          <User size={18} />
-        </Link>
+        {/* Admin Badging & Profile Group */}
+        <div className="flex items-center gap-3">
+          <div className="hidden sm:flex flex-col text-right">
+            <span className="text-sm font-semibold text-foreground leading-tight">
+              {user?.name || 'Administrator'}
+            </span>
+            <span className="text-[10px] text-[#ff5e5b] font-bold uppercase tracking-wider flex items-center justify-end gap-1 mt-0.5">
+              <ShieldCheck size={11} className="text-[#ff5e5b]" />
+              {user?.role === 'admin' ? 'Super Admin' : 'System Staff'}
+            </span>
+          </div>
+
+          {/* Profile Details Link */}
+          <Link
+            href="/dashboard/profile"
+            className="flex h-9 w-9 items-center justify-center rounded-lg bg-black/10 hover:bg-black/20 dark:bg-white/5 dark:hover:bg-white/10 border border-white/5 text-[#ff5e5b] hover:text-[#ff3b38] transition-all duration-200 hover:scale-105"
+            aria-label="Admin Profile"
+          >
+            <User size={16} />
+          </Link>
+        </div>
       </div>
     </header>
   );

@@ -46,7 +46,7 @@ export const SparePartForm: React.FC<SparePartFormProps> = ({
   isEditMode = false,
 }) => {
   const router = useRouter();
-  const [brands, setBrands] = useState<any[]>([]);
+  const brands = ['HP', 'Canon'];
   const [allCategories, setAllCategories] = useState<any[]>([]);
   const [filteredCategories, setFilteredCategories] = useState<any[]>([]);
   const [products, setProducts] = useState<any[]>([]);
@@ -80,25 +80,21 @@ export const SparePartForm: React.FC<SparePartFormProps> = ({
   const [metaDescription, setMetaDescription] = useState('');
 
   // Files
-  const [thumbnailFile, setThumbnailFile] = useState<File | null>(null);
   const [imageFiles, setImageFiles] = useState<File[]>([]);
 
-  // Load brands, categories, and products
+  // Load categories and products
   useEffect(() => {
     const loadDependencies = async () => {
       try {
         setLoadingOptions(true);
-        const [brandsRes, categoriesRes, productsRes] = await Promise.all([
-          api.get('/brands?limit=100'),
+        const [categoriesRes, productsRes] = await Promise.all([
           api.get('/categories?limit=100'),
           api.get('/products?limit=100'),
         ]);
 
-        const brandList = brandsRes.data?.data?.brands || [];
         const categoryList = categoriesRes.data?.data?.categories || [];
         const productList = productsRes.data?.data?.products || [];
 
-        setBrands(brandList);
         setAllCategories(categoryList);
         setProducts(productList);
 
@@ -119,7 +115,7 @@ export const SparePartForm: React.FC<SparePartFormProps> = ({
           setMetaTitle(initialData.metaTitle || '');
           setMetaDescription(initialData.metaDescription || '');
 
-          const brandId = typeof initialData.brand === 'object' ? initialData.brand?._id : initialData.brand;
+          const brandId = initialData.brand;
           const categoryId = typeof initialData.category === 'object' ? initialData.category?._id : initialData.category;
           const productId = typeof initialData.product === 'object' ? initialData.product?._id : initialData.product;
           
@@ -128,9 +124,7 @@ export const SparePartForm: React.FC<SparePartFormProps> = ({
           setSelectedProduct(productId || '');
         } else {
           // Defaults for new spare part
-          if (brandList.length > 0) {
-            setSelectedBrand(brandList[0]._id);
-          }
+          setSelectedBrand('HP');
         }
       } catch (error) {
         console.error(error);
@@ -147,7 +141,7 @@ export const SparePartForm: React.FC<SparePartFormProps> = ({
     if (selectedBrand) {
       const filtered = allCategories.filter((cat) => {
         const catBrandId = typeof cat.brand === 'object' ? cat.brand?._id : cat.brand;
-        return catBrandId === selectedBrand;
+        return !catBrandId || catBrandId === selectedBrand;
       });
       setFilteredCategories(filtered);
 
@@ -164,7 +158,7 @@ export const SparePartForm: React.FC<SparePartFormProps> = ({
       setFilteredCategories([]);
       setSelectedCategory('');
     }
-  }, [selectedBrand, allCategories, initialData, isEditMode]);
+  }, [selectedBrand, allCategories, initialData, isEditMode, selectedCategory]);
 
   // Dynamically filter products based on selected brand and category
   useEffect(() => {
@@ -191,7 +185,7 @@ export const SparePartForm: React.FC<SparePartFormProps> = ({
       setFilteredProducts([]);
       setSelectedProduct('');
     }
-  }, [selectedBrand, selectedCategory, products, allCategories, initialData, isEditMode]);
+  }, [selectedBrand, selectedCategory, products, allCategories, initialData, isEditMode, selectedProduct]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -201,8 +195,8 @@ export const SparePartForm: React.FC<SparePartFormProps> = ({
       return;
     }
 
-    if (!isEditMode && (!thumbnailFile || imageFiles.length === 0)) {
-      toast.error('A thumbnail and at least one gallery image are required.');
+    if (!isEditMode && imageFiles.length === 0) {
+      toast.error('At least one gallery image is required.');
       return;
     }
 
@@ -232,9 +226,6 @@ export const SparePartForm: React.FC<SparePartFormProps> = ({
       formData.append('features', JSON.stringify(features));
 
       // Append files
-      if (thumbnailFile) {
-        formData.append('thumbnail', thumbnailFile);
-      }
       if (imageFiles.length > 0) {
         imageFiles.forEach((file) => {
           formData.append('images', file);
@@ -358,7 +349,7 @@ export const SparePartForm: React.FC<SparePartFormProps> = ({
             <div className="grid gap-4 sm:grid-cols-3">
               <Select
                 label="Brand"
-                options={brands.map((b) => ({ label: b.name, value: b._id }))}
+                options={brands.map((b) => ({ label: b, value: b }))}
                 value={selectedBrand}
                 onChange={(e) => setSelectedBrand(e.target.value)}
                 disabled={isSubmitting}
@@ -460,13 +451,6 @@ export const SparePartForm: React.FC<SparePartFormProps> = ({
               <FileText size={16} className="text-amber-400" />
               Spare Part Media Uploads
             </h3>
-
-            {/* Thumbnail upload */}
-            <FileUploadDropzone
-              label="Thumbnail Cover (Single Image)"
-              onChange={(file) => setThumbnailFile(file as File | null)}
-              existingPreviews={initialData?.thumbnail?.url}
-            />
 
             {/* Gallery Upload */}
             <FileUploadDropzone
