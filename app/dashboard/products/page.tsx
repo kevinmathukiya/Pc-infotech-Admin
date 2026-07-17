@@ -91,7 +91,7 @@ export default function ProductsCatalogPage() {
         query.append(flagFilter, 'true');
       }
 
-      const res = await api.get(`/products?${query.toString()}`);
+      const res = await api.get(`/api/v1/products?${query.toString()}`);
       setProducts(res.data?.data?.products || []);
       setTotal(res.data?.data?.total || 0);
     } catch (error) {
@@ -119,7 +119,7 @@ export default function ProductsCatalogPage() {
   const handleDelete = async (id: string) => {
     if (!confirm('Are you sure you want to soft delete this product?')) return;
     try {
-      await api.delete(`/products/${id}`);
+      await api.delete(`/api/v1/products/${id}`);
       toast.success('Product deleted successfully');
       fetchProducts();
     } catch (error) {

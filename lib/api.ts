@@ -1,5 +1,7 @@
 import axios from 'axios';
 
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL;
+
 const ACCESS_TOKEN_STORAGE_KEY = 'pcinfotech_access_token';
 let accessToken: string | null = null;
 let isRefreshing = false;

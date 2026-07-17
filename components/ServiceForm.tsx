@@ -114,12 +114,12 @@ export const ServiceForm: React.FC<ServiceFormProps> = ({
       }
 
       if (isEditMode) {
-        await api.put(`/services/${initialData._id}`, formData, {
+        await api.put(`/api/v1/services/${initialData._id}`, formData, {
           headers: { 'Content-Type': 'multipart/form-data' },
         });
         toast.success('Service catalog updated successfully!');
       } else {
-        await api.post('/services', formData, {
+        await api.post('/api/v1/services', formData, {
           headers: { 'Content-Type': 'multipart/form-data' },
         });
         toast.success('Service catalog created successfully!');

@@ -172,12 +172,12 @@ export const ProductForm: React.FC<ProductFormProps> = ({
       }
 
       if (isEditMode) {
-        await api.put(`/products/${initialData._id}`, formData, {
+        await api.put(`/api/v1/products/${initialData._id}`, formData, {
           headers: { 'Content-Type': 'multipart/form-data' },
         });
         toast.success('Product updated successfully!');
       } else {
-        await api.post('/products', formData, {
+        await api.post('/api/v1/products', formData, {
           headers: { 'Content-Type': 'multipart/form-data' },
         });
         toast.success('Product created successfully!');
