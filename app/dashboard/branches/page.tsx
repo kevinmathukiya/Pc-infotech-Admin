@@ -58,7 +58,7 @@ export default function BranchesPage() {
       const query = new URLSearchParams();
       if (search) query.append('search', search);
 
-      const res = await api.get(`/api/v1/branches?${query.toString()}`);
+      const res = await api.get(`branches?${query.toString()}`);
       const list = res.data?.data?.branches || [];
       setBranches(list);
 
@@ -148,10 +148,10 @@ export default function BranchesPage() {
       };
 
       if (editBranch) {
-        await api.put(`/api/v1/branches/${editBranch._id}`, payload);
+        await api.put(`branches/${editBranch._id}`, payload);
         toast.success('Branch details updated successfully!');
       } else {
-        await api.post('/api/v1/branches', payload);
+        await api.post('branches', payload);
         toast.success('Branch created successfully!');
       }
 
@@ -171,7 +171,7 @@ export default function BranchesPage() {
   const handleDelete = async (id: string) => {
     if (!confirm('Are you sure you want to delete this branch?')) return;
     try {
-      await api.delete(`/api/v1/branches/${id}`);
+      await api.delete(`branches/${id}`);
       toast.success('Branch location removed');
       fetchBranches();
     } catch (error) {

@@ -63,7 +63,7 @@ export const sparePartAdminService = {
    */
   getAllSpareParts: async (params?: ISparePartQueryParams): Promise<ISparPartsResponseWrapper> => {
     // Note: The backend route is /spare-parts, handles pagination and query parameters.
-    const response = await api.get<ISparePartsResponse>('/api/v1/spare-parts', { params });
+    const response = await api.get<ISparePartsResponse>('/spare-parts', { params });
     return response.data;
   },
 
@@ -71,7 +71,7 @@ export const sparePartAdminService = {
    * Get a single spare part details by its unique slug.
    */
   getSparePartBySlug: async (slug: string): Promise<ISingleSparePartResponse> => {
-    const response = await api.get<ISingleSparePartResponse>(`/api/v1/spare-parts/${slug}`);
+    const response = await api.get<ISingleSparePartResponse>(`/spare-parts/${slug}`);
     return response.data;
   },
 
@@ -80,7 +80,7 @@ export const sparePartAdminService = {
    * Expects a FormData object containing text fields and file attachments.
    */
   createSparePart: async (formData: FormData): Promise<ISingleSparePartResponse> => {
-    const response = await api.post<ISingleSparePartResponse>('/api/v1/spare-parts', formData, {
+    const response = await api.post<ISingleSparePartResponse>('/spare-parts', formData, {
       headers: {
         'Content-Type': 'multipart/form-data',
       },
@@ -95,7 +95,7 @@ export const sparePartAdminService = {
    */
   updateSparePart: async (id: string, formData: FormData): Promise<ISingleSparePartResponse> => {
     try {
-      const response = await api.patch<ISingleSparePartResponse>(`/api/v1/spare-parts/${id}`, formData, {
+      const response = await api.patch<ISingleSparePartResponse>(`/spare-parts/${id}`, formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
@@ -103,7 +103,7 @@ export const sparePartAdminService = {
       return response.data;
     } catch (error) {
       console.warn('PATCH failed, falling back to PUT update', error);
-      const response = await api.put<ISingleSparePartResponse>(`/api/v1/spare-parts/${id}`, formData, {
+      const response = await api.put<ISingleSparePartResponse>(`/spare-parts/${id}`, formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
@@ -116,7 +116,7 @@ export const sparePartAdminService = {
    * Delete a spare part by its ID.
    */
   deleteSparePart: async (id: string): Promise<{ success: boolean; message: string }> => {
-    const response = await api.delete<{ success: boolean; message: string }>(`/api/v1/spare-parts/${id}`);
+    const response = await api.delete<{ success: boolean; message: string }>(`/spare-parts/${id}`);
     return response.data;
   },
 };

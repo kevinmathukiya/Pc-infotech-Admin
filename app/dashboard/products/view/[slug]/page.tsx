@@ -20,7 +20,7 @@ export default function ViewProductPage() {
     const fetchProduct = async () => {
       try {
         setLoading(true);
-        const res = await api.get(`/api/v1/products/${slug}`);
+        const res = await api.get(`products/${slug}`);
         const prod = res.data?.data?.product || res.data?.data || res.data;
         setProduct(prod);
         if (prod?.thumbnail?.url) {
@@ -39,7 +39,7 @@ export default function ViewProductPage() {
   const handleDelete = async () => {
     if (!confirm('Are you sure you want to soft delete this product?')) return;
     try {
-      await api.delete(`/api/v1/products/${product._id}`);
+      await api.delete(`products/${product._id}`);
       toast.success('Product deleted successfully');
       router.push('/dashboard/products');
     } catch (error) {

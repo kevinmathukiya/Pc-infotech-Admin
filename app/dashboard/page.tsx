@@ -47,10 +47,10 @@ export default function DashboardOverviewPage() {
       setLoading(true);
       // Fetch in parallel
       const [productsRes, branchesRes, ticketsRes, contactsRes] = await Promise.all([
-        api.get('/api/v1/products?limit=1'),
-        api.get('/api/v1/branches'),
-        api.get('/api/v1/service-requests'),
-        api.get('/api/v1/contact'),
+        api.get('products?limit=1'),
+        api.get('branches'),
+        api.get('service-requests'),
+        api.get('contact'),
       ]);
 
       const totalProducts = productsRes.data?.data?.total || 0;

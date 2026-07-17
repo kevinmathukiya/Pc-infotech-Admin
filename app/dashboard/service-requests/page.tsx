@@ -54,7 +54,7 @@ export default function ServiceRequestsPage() {
       if (search) query.append('search', search);
       if (statusFilter) query.append('status', statusFilter);
 
-      const res = await api.get(`/api/v1/service-requests?${query.toString()}`);
+      const res = await api.get(`service-requests?${query.toString()}`);
       setRequests(res.data?.data?.requests || []);
       setTotal(res.data?.data?.total || 0);
     } catch (error) {
@@ -88,7 +88,7 @@ export default function ServiceRequestsPage() {
 
     setIsSubmitting(true);
     try {
-      await api.patch(`/api/v1/service-requests/${activeRequest._id}`, {
+      await api.patch(`service-requests/${activeRequest._id}`, {
         status,
         engineerRemarks,
       });
@@ -106,7 +106,7 @@ export default function ServiceRequestsPage() {
   const handleDelete = async (id: string) => {
     if (!confirm('Are you sure you want to remove this service request?')) return;
     try {
-      await api.delete(`/api/v1/service-requests/${id}`);
+      await api.delete(`service-requests/${id}`);
       toast.success('Service request deleted successfully');
       fetchRequests();
     } catch (error) {

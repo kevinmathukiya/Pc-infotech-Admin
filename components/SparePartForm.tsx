@@ -88,8 +88,8 @@ export const SparePartForm: React.FC<SparePartFormProps> = ({
       try {
         setLoadingOptions(true);
         const [categoriesRes, productsRes] = await Promise.all([
-          api.get('/categories?limit=100'),
-          api.get('/products?limit=100'),
+          api.get('categories?limit=100'),
+          api.get('products?limit=100'),
         ]);
 
         const categoryList = categoriesRes.data?.data?.categories || [];

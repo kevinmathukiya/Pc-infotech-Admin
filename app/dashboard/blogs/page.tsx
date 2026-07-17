@@ -41,7 +41,7 @@ export default function BlogsCatalogPage() {
       if (statusFilter) query.append('status', statusFilter);
 
       // Call the admin-specific endpoint to get drafts as well!
-      const res = await api.get(`/api/v1/blogs/admin/all?${query.toString()}`);
+      const res = await api.get(`blogs/admin/all?${query.toString()}`);
       setBlogs(res.data?.data?.blogs || []);
       setTotal(res.data?.data?.total || 0);
     } catch (error) {
@@ -65,7 +65,7 @@ export default function BlogsCatalogPage() {
   const handleDelete = async (id: string) => {
     if (!confirm('Are you sure you want to delete this blog post?')) return;
     try {
-      await api.delete(`/api/v1/blogs/${id}`);
+      await api.delete(`blogs/${id}`);
       toast.success('Blog post deleted successfully');
       fetchBlogs();
     } catch (error) {

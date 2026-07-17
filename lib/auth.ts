@@ -23,26 +23,26 @@ authApi.interceptors.request.use((config) => {
 });
 
 export const login = (email: string, password: string) =>
-  authApi.post('/api/v1/auth/login', { email, password });
+  authApi.post('/auth/login', { email, password });
 
-export const getMe = () => api.get('/api/v1/auth/me');
+export const getMe = () => api.get('auth/me');
 
 export const changePassword = (currentPassword: string, newPassword: string) =>
-  api.post('/api/v1/auth/change-password', { currentPassword, newPassword });
+  api.post('auth/change-password', { currentPassword, newPassword });
 
 export const forgotPassword = (email: string) =>
-  authApi.post('/api/v1/auth/forgot-password', { email });
+  authApi.post('/auth/forgot-password', { email });
 
 export const verifyOtp = (email: string, otp: string) =>
-  authApi.post('/api/v1/auth/verify-otp', { email, otp });
+  authApi.post('/auth/verify-otp', { email, otp });
 
 export const resetPassword = (token: string, password: string) =>
-  authApi.post('/api/v1/auth/reset-password', { token, password });
+  authApi.post('/auth/reset-password', { token, password });
 
 export const logout = (refreshToken?: string) =>
-  api.post('/api/v1/auth/logout', refreshToken ? { refreshToken } : {});
+  api.post('auth/logout', refreshToken ? { refreshToken } : {});
 
-export const refreshAccessToken = () => authApi.post('/api/v1/auth/refresh-token');
+export const refreshAccessToken = () => authApi.post('/auth/refresh-token');
 
 export const updateProfile = (data: { name: string; email: string; age?: number; mobileNumber?: string }) =>
-  api.put('/api/v1/auth/update-profile', data);
+  api.put('auth/update-profile', data);

@@ -19,7 +19,7 @@ export default function ViewServicePage() {
     const fetchService = async () => {
       try {
         setLoading(true);
-        const res = await api.get(`/api/v1/services/${slug}`);
+        const res = await api.get(`services/${slug}`);
         setService(res.data?.data?.service || res.data?.data || res.data);
       } catch (error) {
         console.error(error);
@@ -34,7 +34,7 @@ export default function ViewServicePage() {
   const handleDelete = async () => {
     if (!confirm('Are you sure you want to delete this service?')) return;
     try {
-      await api.delete(`/api/v1/services/${service._id}`);
+      await api.delete(`services/${service._id}`);
       toast.success('Service deleted successfully');
       router.push('/dashboard/services');
     } catch (error) {

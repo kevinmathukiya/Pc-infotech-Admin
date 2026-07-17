@@ -40,7 +40,7 @@ export default function ServicesCatalogPage() {
       if (search) query.append('search', search);
       if (statusFilter) query.append('status', statusFilter);
 
-      const res = await api.get(`/api/v1/services?${query.toString()}`);
+      const res = await api.get(`services?${query.toString()}`);
       setServices(res.data?.data?.services || []);
       setTotal(res.data?.data?.total || 0);
     } catch (error) {
@@ -64,7 +64,7 @@ export default function ServicesCatalogPage() {
   const handleDelete = async (id: string) => {
     if (!confirm('Are you sure you want to delete this service?')) return;
     try {
-      await api.delete(`/api/v1/services/${id}`);
+      await api.delete(`services/${id}`);
       toast.success('Service deleted successfully');
       fetchServices();
     } catch (error) {

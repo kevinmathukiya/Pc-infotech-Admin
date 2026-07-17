@@ -19,7 +19,7 @@ export default function EditProductPage() {
     const fetchProduct = async () => {
       try {
         setLoading(true);
-        const res = await api.get(`/api/v1/products/${slug}`);
+        const res = await api.get(`products/${slug}`);
         setProduct(res.data?.data?.product || res.data?.data || res.data);
       } catch (error) {
         console.error(error);

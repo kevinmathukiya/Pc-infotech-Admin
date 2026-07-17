@@ -46,7 +46,7 @@ export default function ContactInboxPage() {
       if (readFilter === 'read') query.append('isRead', 'true');
       if (readFilter === 'unread') query.append('isRead', 'false');
 
-      const res = await api.get(`/api/v1/contact?${query.toString()}`);
+      const res = await api.get(`contact?${query.toString()}`);
       setInquiries(res.data?.data?.contacts || []);
       setTotal(res.data?.data?.total || 0);
     } catch (error) {
@@ -74,7 +74,7 @@ export default function ContactInboxPage() {
     // If message is unread, mark it as read on the backend automatically!
     if (!inquiry.isRead) {
       try {
-        await api.patch(`/api/v1/contact/${inquiry._id}/read`);
+        await api.patch(`contact/${inquiry._id}/read`);
         // Update local list state to mark it read immediately without full refresh
         setInquiries((prev) =>
           prev.map((item) => (item._id === inquiry._id ? { ...item, isRead: true } : item))
@@ -89,7 +89,7 @@ export default function ContactInboxPage() {
     e.stopPropagation(); // Avoid triggering open modal on parent div click!
     if (!confirm('Are you sure you want to delete this message?')) return;
     try {
-      await api.delete(`/api/v1/contact/${id}`);
+      await api.delete(`contact/${id}`);
       toast.success('Inquiry deleted successfully');
       fetchInquiries();
     } catch (error) {
