@@ -105,17 +105,17 @@ export default function ContactInboxPage() {
       
       {/* Title */}
       <div>
-        <h1 className="text-2xl font-bold text-slate-800 flex items-center gap-2">
+        <h1 className="text-2xl font-bold text-foreground flex items-center gap-2">
           <Inbox className="text-[#ff5e5b]" size={24} />
           Contact inquiries Inbox
         </h1>
-        <p className="text-xs text-[#94a3b8] mt-1">
+        <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">
           Review customer inquiries, query submissions, support requests, and contact submissions.
         </p>
       </div>
 
       {/* Query Filters */}
-      <div className="glass-panel border border-slate-200 rounded-xl p-4 flex flex-col md:flex-row gap-4 justify-between items-stretch">
+      <div className="glass-panel border border-primary-border rounded-xl p-4 flex flex-col md:flex-row gap-4 justify-between items-stretch">
         <form onSubmit={handleSearchSubmit} className="flex-1 flex gap-2">
           <div className="relative flex-1">
             <input
@@ -125,7 +125,7 @@ export default function ContactInboxPage() {
               onChange={(e) => setSearch(e.target.value)}
               className="input-field pl-10"
             />
-            <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-550" size={16} />
+            <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400" size={16} />
           </div>
           <button type="submit" className="btn-secondary px-5 flex items-center gap-1">
             <Search size={14} />
@@ -134,11 +134,11 @@ export default function ContactInboxPage() {
         </form>
         
         {/* Toggle read/unread buttons */}
-        <div className="flex gap-1.5 bg-slate-50 border border-slate-200 p-1.5 rounded-lg">
+        <div className="flex gap-1.5 bg-primary-slate border border-primary-border p-1.5 rounded-lg">
           <button
             onClick={() => { setReadFilter(''); setPage(1); }}
             className={`px-4 py-1 rounded text-xs font-semibold uppercase tracking-wider transition-colors ${
-              readFilter === '' ? 'bg-[#ff5e5b] text-white' : 'text-slate-450 hover:text-slate-700'
+              readFilter === '' ? 'bg-[#ff5e5b] text-white' : 'text-slate-500 dark:text-slate-400 hover:text-foreground'
             }`}
           >
             All
@@ -146,7 +146,7 @@ export default function ContactInboxPage() {
           <button
             onClick={() => { setReadFilter('unread'); setPage(1); }}
             className={`px-4 py-1 rounded text-xs font-semibold uppercase tracking-wider transition-colors ${
-              readFilter === 'unread' ? 'bg-[#ff5e5b] text-white' : 'text-slate-450 hover:text-slate-700'
+              readFilter === 'unread' ? 'bg-[#ff5e5b] text-white' : 'text-slate-500 dark:text-slate-400 hover:text-foreground'
             }`}
           >
             Unread
@@ -154,7 +154,7 @@ export default function ContactInboxPage() {
           <button
             onClick={() => { setReadFilter('read'); setPage(1); }}
             className={`px-4 py-1 rounded text-xs font-semibold uppercase tracking-wider transition-colors ${
-              readFilter === 'read' ? 'bg-[#ff5e5b] text-white' : 'text-slate-450 hover:text-slate-700'
+              readFilter === 'read' ? 'bg-[#ff5e5b] text-white' : 'text-slate-500 dark:text-slate-400 hover:text-foreground'
             }`}
           >
             Read
@@ -165,43 +165,43 @@ export default function ContactInboxPage() {
       {/* Inbox table list */}
       {loading ? (
         <div className="flex h-[40vh] items-center justify-center">
-          <div className="h-8 w-8 animate-spin rounded-full border-4 border-slate-200 border-t-[#ff5e5b]" />
+          <div className="h-8 w-8 animate-spin rounded-full border-4 border-primary-border border-t-[#ff5e5b]" />
         </div>
       ) : inquiries.length > 0 ? (
-        <div className="glass-panel border border-slate-200 rounded-xl overflow-hidden shadow-xl">
-          <div className="flex flex-col divide-y divide-slate-850">
+        <div className="glass-panel border border-primary-border rounded-xl overflow-hidden shadow-xl">
+          <div className="flex flex-col divide-y divide-primary-border">
             {inquiries.map((inq) => (
               <div
                 key={inq._id}
                 onClick={() => openMessageModal(inq)}
-                className={`p-5 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 cursor-pointer hover:bg-slate-50/40 transition-colors ${
-                  !inq.isRead ? 'border-l-2 border-l-[#ff5e5b] bg-[#ff5e5b]/[0.02]' : 'border-l-2 border-l-transparent'
+                className={`p-5 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 cursor-pointer hover:bg-primary-card transition-colors ${
+                  !inq.isRead ? 'border-l-2 border-l-[#ff5e5b] bg-[#ff5e5b]/[0.03]' : 'border-l-2 border-l-transparent'
                 }`}
               >
                 <div className="flex-1 min-w-0">
                   <div className="flex flex-wrap items-center gap-3">
-                    <span className={`text-sm font-semibold ${!inq.isRead ? 'text-slate-800 font-extrabold' : 'text-slate-350'}`}>
+                    <span className={`text-sm ${!inq.isRead ? 'text-foreground font-black' : 'text-slate-600 dark:text-slate-400 font-semibold'}`}>
                       {inq.name}
                     </span>
                     {!inq.isRead && (
                       <span className="h-1.5 w-1.5 rounded-full bg-[#ff5e5b] shadow-[0_0_8px_#ff5e5b]" />
                     )}
-                    <span className="text-[10px] text-slate-500 font-semibold tracking-wider uppercase flex items-center gap-1">
+                    <span className="text-[10px] text-slate-500 dark:text-slate-400 font-semibold tracking-wider uppercase flex items-center gap-1">
                       <Mail size={10} />
                       {inq.email}
                     </span>
                   </div>
 
-                  <h3 className={`text-xs font-bold mt-2 truncate ${!inq.isRead ? 'text-slate-700' : 'text-slate-450'}`}>
+                  <h3 className={`text-xs font-bold mt-2 truncate ${!inq.isRead ? 'text-foreground' : 'text-slate-500 dark:text-slate-400'}`}>
                     Subject: {inq.subject}
                   </h3>
                   
-                  <p className="text-xs text-slate-500 truncate mt-1 leading-relaxed">
+                  <p className="text-xs text-slate-500 dark:text-slate-400 truncate mt-1 leading-relaxed">
                     {inq.message}
                   </p>
                 </div>
 
-                <div className="flex items-center justify-between sm:justify-end gap-6 text-xs text-slate-500 font-semibold">
+                <div className="flex items-center justify-between sm:justify-end gap-6 text-xs text-slate-500 dark:text-slate-400 font-semibold">
                   <span className="flex items-center gap-1.5 whitespace-nowrap">
                     <Calendar size={13} />
                     {inq.createdAt ? new Date(inq.createdAt).toLocaleDateString() : 'N/A'}
@@ -210,12 +210,12 @@ export default function ContactInboxPage() {
                   <div className="flex items-center gap-3">
                     <button
                       onClick={(e) => handleDelete(inq._id, e)}
-                      className="p-2 text-slate-500 hover:text-red-400 rounded hover:bg-red-500/10 transition-colors"
+                      className="p-2 text-slate-500 dark:text-slate-400 hover:text-red-400 rounded hover:bg-red-500/10 transition-colors"
                       title="Delete Message"
                     >
                       <Trash2 size={15} />
                     </button>
-                    <ChevronRight size={16} className="text-slate-650" />
+                    <ChevronRight size={16} className="text-slate-400" />
                   </div>
                 </div>
               </div>
@@ -223,8 +223,8 @@ export default function ContactInboxPage() {
           </div>
         </div>
       ) : (
-        <div className="text-center py-16 border border-slate-200 rounded-xl bg-slate-50/30">
-          <p className="text-sm text-slate-500 font-medium">No inquiries in your inbox.</p>
+        <div className="text-center py-16 border border-primary-border rounded-xl bg-primary-card/30">
+          <p className="text-sm text-slate-500 dark:text-slate-400 font-medium">No inquiries in your inbox.</p>
         </div>
       )}
 
@@ -238,7 +238,7 @@ export default function ContactInboxPage() {
           >
             Prev
           </button>
-          <span className="flex items-center text-xs text-slate-400 font-semibold px-2">
+          <span className="flex items-center text-xs text-slate-500 dark:text-slate-400 font-semibold px-2">
             Page {page} of {totalPages}
           </span>
           <button
@@ -261,18 +261,18 @@ export default function ContactInboxPage() {
         {activeMessage && (
           <div className="space-y-4 pt-1">
             {/* Sender cards details */}
-            <div className="bg-slate-50 border border-slate-850 p-4 rounded-xl space-y-2 text-xs">
-              <p className="text-slate-400">
-                <span className="font-semibold text-slate-600 block uppercase tracking-wider text-[10px] mb-0.5">Customer:</span>
-                <span className="text-sm font-bold text-slate-700">{activeMessage.name}</span>
+            <div className="bg-primary-slate border border-primary-border p-4 rounded-xl space-y-2 text-xs">
+              <p className="text-slate-500 dark:text-slate-400">
+                <span className="font-semibold text-slate-600 dark:text-slate-400 block uppercase tracking-wider text-[10px] mb-0.5">Customer:</span>
+                <span className="text-sm font-bold text-foreground">{activeMessage.name}</span>
               </p>
               
-              <div className="grid gap-2 grid-cols-2 mt-2 pt-2 border-t border-slate-850">
-                <p className="text-slate-400 flex items-center gap-1.5">
+              <div className="grid gap-2 grid-cols-2 mt-2 pt-2 border-t border-primary-border">
+                <p className="text-slate-500 dark:text-slate-400 flex items-center gap-1.5">
                   <Mail size={12} className="text-sky-400" />
                   {activeMessage.email}
                 </p>
-                <p className="text-slate-400 flex items-center gap-1.5">
+                <p className="text-slate-500 dark:text-slate-400 flex items-center gap-1.5">
                   <Phone size={12} className="text-emerald-400" />
                   {activeMessage.mobile}
                 </p>
@@ -281,18 +281,18 @@ export default function ContactInboxPage() {
 
             {/* Subject */}
             <div>
-              <span className="text-slate-500 font-semibold block uppercase tracking-wider text-[9px] mb-1">Subject Header:</span>
-              <h3 className="text-sm font-bold text-slate-800">{activeMessage.subject}</h3>
+              <span className="text-slate-500 dark:text-slate-400 font-semibold block uppercase tracking-wider text-[9px] mb-1">Subject Header:</span>
+              <h3 className="text-sm font-bold text-foreground">{activeMessage.subject}</h3>
             </div>
 
             {/* Message */}
-            <div className="p-4 bg-white/40 border border-slate-850 rounded-xl">
+            <div className="p-4 bg-primary-card border border-primary-border rounded-xl">
               <span className="text-[#ff5e5b] font-bold block uppercase tracking-wider text-[9px] mb-2">Message Body:</span>
-              <p className="text-xs text-slate-600 leading-relaxed whitespace-pre-wrap">{activeMessage.message}</p>
+              <p className="text-xs text-foreground/90 leading-relaxed whitespace-pre-wrap">{activeMessage.message}</p>
             </div>
 
             {/* Actions footer */}
-            <div className="flex justify-end gap-3 border-t border-slate-200 pt-4 mt-6">
+            <div className="flex justify-end gap-3 border-t border-primary-border pt-4 mt-6">
               <button
                 type="button"
                 onClick={() => setIsModalOpen(false)}

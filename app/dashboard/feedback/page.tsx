@@ -107,11 +107,11 @@ export default function FeedbacksManagementPage() {
       {/* Title Header */}
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-slate-800 flex items-center gap-2">
+          <h1 className="text-2xl font-bold text-foreground flex items-center gap-2">
             <MessageSquare className="text-[#ff5e5b]" size={24} />
             Customer Feedbacks
           </h1>
-          <p className="text-xs text-slate-450 mt-1">
+          <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">
             Moderate reviews and star ratings submitted by clients. Approve items to publish them on the main website.
           </p>
         </div>
@@ -125,7 +125,7 @@ export default function FeedbacksManagementPage() {
       </div>
 
       {/* Query Filters */}
-      <div className="glass-panel border border-slate-200 rounded-xl p-5">
+      <div className="glass-panel border border-primary-border rounded-xl p-5">
         <div className="max-w-xs">
           <Select
             label="Filter Status"
@@ -147,7 +147,7 @@ export default function FeedbacksManagementPage() {
       {/* Feedbacks Listing */}
       {loading ? (
         <div className="flex h-[40vh] items-center justify-center">
-          <div className="h-8 w-8 animate-spin rounded-full border-4 border-slate-200 border-t-[#ff5e5b]" />
+          <div className="h-8 w-8 animate-spin rounded-full border-4 border-primary-border border-t-[#ff5e5b]" />
         </div>
       ) : feedbacks.length > 0 ? (
         <div className="glass-panel border border-primary-border rounded-xl overflow-hidden shadow-xl">
@@ -168,8 +168,8 @@ export default function FeedbacksManagementPage() {
                   <tr key={f._id} className="hover:bg-primary-card transition-colors">
                     {/* User Details */}
                     <td className="py-4 px-6">
-                      <div className="font-semibold text-slate-800">{f.customerName}</div>
-                      {f.email && <div className="text-[11px] text-slate-500 mt-0.5">{f.email}</div>}
+                      <div className="font-semibold text-foreground">{f.customerName}</div>
+                      {f.email && <div className="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">{f.email}</div>}
                       {f.user && (
                         <div className="text-[10px] text-sky-500 font-bold mt-0.5 uppercase tracking-wide">
                           Verified Account
@@ -187,7 +187,7 @@ export default function FeedbacksManagementPage() {
                             className={
                               star <= f.rating
                                 ? 'fill-amber-400 text-amber-400'
-                                : 'text-slate-250 dark:text-slate-700'
+                                : 'text-slate-300 dark:text-slate-700'
                             }
                           />
                         ))}
@@ -196,7 +196,7 @@ export default function FeedbacksManagementPage() {
 
                     {/* Comment Body */}
                     <td className="py-4 px-6 max-w-sm">
-                      <p className="text-xs text-slate-600 leading-relaxed truncate-2-lines" title={f.comment}>
+                      <p className="text-xs text-slate-600 dark:text-slate-300 leading-relaxed truncate-2-lines" title={f.comment}>
                         "{f.comment}"
                       </p>
                     </td>
@@ -217,7 +217,7 @@ export default function FeedbacksManagementPage() {
                     </td>
 
                     {/* Date */}
-                    <td className="py-4 px-6 text-xs text-slate-500">
+                    <td className="py-4 px-6 text-xs text-slate-500 dark:text-slate-400">
                       <div className="flex items-center gap-1">
                         <Clock size={12} />
                         {new Date(f.createdAt).toLocaleDateString(undefined, {
@@ -265,8 +265,8 @@ export default function FeedbacksManagementPage() {
           </div>
         </div>
       ) : (
-        <div className="text-center py-16 border border-slate-200 rounded-xl bg-white">
-          <p className="text-sm text-slate-500 font-medium">No reviews/feedbacks found matching criteria.</p>
+        <div className="text-center py-16 border border-primary-border rounded-xl bg-primary-card/30">
+          <p className="text-sm text-slate-500 dark:text-slate-400 font-medium">No reviews/feedbacks found matching criteria.</p>
         </div>
       )}
 

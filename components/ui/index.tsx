@@ -52,13 +52,13 @@ export const Modal: React.FC<ModalProps> = ({
 
       {/* Modal Dialog Content */}
       <div
-        className={`relative z-10 w-full ${sizeClasses[size]} rounded-2xl border border-white/5 bg-primary-slate/95 backdrop-blur-xl p-6 shadow-2xl transition-all duration-300 transform scale-100 animate-in fade-in zoom-in-95`}
+        className={`relative z-10 w-full ${sizeClasses[size]} rounded-2xl border border-primary-border bg-primary-slate/95 backdrop-blur-xl p-6 shadow-2xl transition-all duration-300 transform scale-100 animate-in fade-in zoom-in-95`}
       >
-        <div className="flex items-center justify-between border-b border-white/5 pb-4 mb-4">
+        <div className="flex items-center justify-between border-b border-primary-border pb-4 mb-4">
           <h3 className="text-lg font-semibold text-foreground tracking-wide">{title}</h3>
           <button
             onClick={onClose}
-            className="rounded-lg p-1 text-slate-550 dark:text-slate-400 hover:bg-primary-card hover:text-foreground transition-colors"
+            className="rounded-lg p-1 text-slate-500 dark:text-slate-400 hover:bg-primary-card hover:text-foreground transition-colors"
           >
             <X size={18} />
           </button>
@@ -82,7 +82,7 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
     return (
       <div className="w-full flex flex-col gap-1.5">
         {label && (
-          <label className="text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">
+          <label className="text-xs font-semibold uppercase tracking-wider text-slate-600 dark:text-slate-400">
             {label}
           </label>
         )}
@@ -110,7 +110,7 @@ export const Select = React.forwardRef<HTMLSelectElement, SelectProps>(
     return (
       <div className="w-full flex flex-col gap-1.5">
         {label && (
-          <label className="text-xs font-semibold uppercase tracking-wider text-slate-550 dark:text-slate-400">
+          <label className="text-xs font-semibold uppercase tracking-wider text-slate-600 dark:text-slate-400">
             {label}
           </label>
         )}

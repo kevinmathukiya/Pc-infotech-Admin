@@ -203,7 +203,7 @@ export default function HomepageCmsPage() {
   if (loading) {
     return (
       <div className="flex h-[40vh] items-center justify-center">
-        <div className="h-8 w-8 animate-spin rounded-full border-4 border-slate-200 border-t-[#ff5e5b]" />
+        <div className="h-8 w-8 animate-spin rounded-full border-4 border-primary-border border-t-[#ff5e5b]" />
       </div>
     );
   }

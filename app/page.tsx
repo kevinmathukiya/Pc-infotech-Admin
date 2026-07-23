@@ -54,17 +54,17 @@ export default function LoginPage() {
       <div className="absolute bottom-1/3 left-1/4 h-[250px] w-[250px] rounded-full bg-violet-600/5 blur-[80px] pointer-events-none animate-pulse-slow" />
 
       {/* Login Card */}
-      <div className="glass-card-premium w-full max-w-md rounded-2xl p-8 border border-white/5 shadow-2xl relative z-10 transition-all duration-300 animate-fade-in-up">
+      <div className="glass-card-premium w-full max-w-md rounded-2xl p-8 border border-primary-border shadow-2xl relative z-10 transition-all duration-300 animate-fade-in-up">
         {/* Header */}
         <div className="flex flex-col items-center text-center mb-8">
-          <div className="flex h-16 w-16 items-center justify-center rounded-xl border border-white/5 bg-black/40 p-2 mb-4">
+          <div className="flex h-16 w-16 items-center justify-center rounded-xl border border-primary-border bg-primary-card p-2 mb-4">
             <img
               src="/image/pc_logo.png"
               alt="PC INFOTECH Logo"
               className="max-h-full max-w-full object-contain"
             />
           </div>
-          <h2 className="text-2xl font-black tracking-wide text-foreground uppercase bg-gradient-to-r from-white to-slate-350 bg-clip-text text-transparent">PC INFOTECH</h2>
+          <h2 className="text-2xl font-black tracking-wide text-foreground uppercase">PC INFOTECH</h2>
           <p className="text-[10px] text-[#ff5e5b] font-bold uppercase tracking-widest mt-1">Admin Portal</p>
         </div>
 
@@ -72,7 +72,7 @@ export default function LoginPage() {
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
           {/* Email input */}
           <div className="flex flex-col gap-2">
-            <label className="text-[10px] font-bold uppercase tracking-widest text-slate-400 flex items-center gap-2">
+            <label className="text-[10px] font-bold uppercase tracking-widest text-slate-600 dark:text-slate-400 flex items-center gap-2">
               <Mail size={12} className="text-[#ff5e5b]" />
               Email Address
             </label>
@@ -81,18 +81,18 @@ export default function LoginPage() {
                 type="email"
                 placeholder="Enter your admin email"
                 {...register('email')}
-                className={`input-field pr-4 transition-all duration-300 border-white/5 bg-black/20 hover:border-white/10 focus:border-[#ff5e5b] focus:ring-1 focus:ring-[#ff5e5b]/20 ${errors.email ? 'border-red-500/50 focus:border-red-500' : ''}`}
+                className={`input-field pr-4 transition-all duration-300 ${errors.email ? 'border-red-500 focus:border-red-500' : ''}`}
                 disabled={isSubmitting}
               />
             </div>
             {errors.email && (
-              <span className="text-xs text-red-405 font-medium">{errors.email.message}</span>
+              <span className="text-xs text-red-500 dark:text-red-400 font-medium">{errors.email.message}</span>
             )}
           </div>
 
           {/* Password input */}
           <div className="flex flex-col gap-2">
-            <label className="text-[10px] font-bold uppercase tracking-widest text-slate-400 flex items-center gap-2">
+            <label className="text-[10px] font-bold uppercase tracking-widest text-slate-600 dark:text-slate-400 flex items-center gap-2">
               <Lock size={12} className="text-[#ff5e5b]" />
               Password
             </label>
@@ -101,20 +101,20 @@ export default function LoginPage() {
                 type={showPassword ? 'text' : 'password'}
                 placeholder="••••••••"
                 {...register('password')}
-                className={`input-field pr-11 transition-all duration-300 border-white/5 bg-black/20 hover:border-white/10 focus:border-[#ff5e5b] focus:ring-1 focus:ring-[#ff5e5b]/20 ${errors.password ? 'border-red-500/50 focus:border-red-500' : ''}`}
+                className={`input-field pr-11 transition-all duration-300 ${errors.password ? 'border-red-500 focus:border-red-500' : ''}`}
                 disabled={isSubmitting}
               />
               <button
                 type="button"
                 onClick={() => setShowPassword(!showPassword)}
-                className="absolute right-3.5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-white transition-colors"
+                className="absolute right-3.5 top-1/2 -translate-y-1/2 text-slate-500 dark:text-slate-400 hover:text-foreground transition-colors"
                 tabIndex={-1}
               >
                 {showPassword ? <EyeOff size={16} /> : <Eye size={16} />}
               </button>
             </div>
             {errors.password && (
-              <span className="text-xs text-red-405 font-medium">{errors.password.message}</span>
+              <span className="text-xs text-red-500 dark:text-red-400 font-medium">{errors.password.message}</span>
             )}
           </div>
 
@@ -138,14 +138,14 @@ export default function LoginPage() {
         <div className="mt-5 text-center">
           <Link
             href="/forgot-password"
-            className="text-xs text-slate-400 hover:text-[#ff5e5b] transition-colors font-semibold tracking-wide"
+            className="text-xs text-slate-600 dark:text-slate-400 hover:text-[#ff5e5b] transition-colors font-semibold tracking-wide"
           >
             Forgot your password?
           </Link>
         </div>
 
-        <div className="mt-8 text-center border-t border-white/5 pt-5">
-          <p className="text-[10px] text-slate-500 font-semibold tracking-widest uppercase">
+        <div className="mt-8 text-center border-t border-primary-border pt-5">
+          <p className="text-[10px] text-slate-500 dark:text-slate-400 font-semibold tracking-widest uppercase">
             © 2026 PC INFOTECH • SECURE SYSTEM MANAGEMENT
           </p>
         </div>

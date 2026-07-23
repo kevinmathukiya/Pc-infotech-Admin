@@ -27,7 +27,7 @@ export default function BranchesPage() {
   const [branches, setBranches] = useState<Branch[]>([]);
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState('');
-  
+
   // Tabs and forms
   const [regions, setRegions] = useState<string[]>([]);
   const [activeTab, setActiveTab] = useState('');
@@ -187,7 +187,7 @@ export default function BranchesPage() {
 
   return (
     <div className="space-y-6 animate-in fade-in duration-300">
-      
+
       {/* Title */}
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <div>
@@ -209,7 +209,7 @@ export default function BranchesPage() {
       </div>
 
       {/* Query Filters */}
-      <div className="glass-card-premium rounded-2xl p-4 flex flex-col md:flex-row gap-4 justify-between items-stretch border border-white/5">
+      <div className="glass-card-premium rounded-2xl p-4 flex flex-col md:flex-row gap-4 justify-between items-stretch border border-primary-border">
         <form onSubmit={handleSearchSubmit} className="flex-1 flex gap-2">
           <div className="relative flex-1">
             <input
@@ -226,7 +226,7 @@ export default function BranchesPage() {
             Find
           </button>
         </form>
-        
+
         <div className="w-full md:w-52 h-10 select-wrapper">
           <Select
             options={[
@@ -249,42 +249,40 @@ export default function BranchesPage() {
           {activeBranchesList.map((branch) => (
             <div
               key={branch._id}
-              className="glass-card-premium border border-white/5 rounded-2xl p-6 flex flex-col justify-between group hover:-translate-y-1 transition-all duration-300 hover:shadow-[0_8px_30px_rgba(255,94,91,0.02)]"
+              className="glass-card-premium border border-primary-border rounded-2xl p-6 flex flex-col justify-between group hover:-translate-y-1 transition-all duration-300 hover:shadow-[0_8px_30px_rgba(255,94,91,0.02)]"
             >
               <div>
                 <div className="flex items-start justify-between">
                   <div>
                     <h3 className="text-base font-bold text-foreground group-hover:text-[#ff5e5b] transition-colors">{branch.name}</h3>
                     <div className="flex items-center gap-2 mt-1.5">
-                      <span className={`inline-flex items-center gap-1 px-2.5 py-0.5 rounded text-[10px] font-bold uppercase tracking-wide ${
-                        branch.branchType === 'head_office' 
-                          ? 'bg-sky-500/10 text-sky-400 border border-sky-500/20' 
+                      <span className={`inline-flex items-center gap-1 px-2.5 py-0.5 rounded text-[10px] font-bold uppercase tracking-wide ${branch.branchType === 'head_office'
+                          ? 'bg-sky-500/10 text-sky-400 border border-sky-500/20'
                           : 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20'
-                      }`}>
+                        }`}>
                         <Shield size={10} />
                         {branch.branchType === 'head_office' ? 'Head Office' : 'Partner Branch'}
                       </span>
-                      <span className={`inline-flex px-2 py-0.5 rounded-full text-[9px] font-bold uppercase tracking-wider ${
-                        branch.status === 'active' 
-                          ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20' 
+                      <span className={`inline-flex px-2 py-0.5 rounded-full text-[9px] font-bold uppercase tracking-wider ${branch.status === 'active'
+                          ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20'
                           : 'bg-slate-500/10 text-slate-400 border border-slate-500/20'
-                      }`}>
+                        }`}>
                         {branch.status}
                       </span>
                     </div>
                   </div>
-                  
+
                   <div className="flex gap-1.5">
                     <button
                       onClick={() => openEditModal(branch)}
-                      className="p-1.5 text-slate-400 hover:text-sky-400 rounded-lg hover:bg-sky-500/10 transition-all duration-200"
+                      className="p-1.5 text-slate-500 dark:text-slate-400 hover:text-sky-400 rounded-lg hover:bg-primary-card transition-all duration-200"
                       title="Edit Branch"
                     >
                       <Edit size={14} />
                     </button>
                     <button
                       onClick={() => handleDelete(branch._id)}
-                      className="p-1.5 text-slate-400 hover:text-red-400 rounded-lg hover:bg-red-500/10 transition-all duration-200"
+                      className="p-1.5 text-slate-500 dark:text-slate-400 hover:text-red-400 rounded-lg hover:bg-red-500/10 transition-all duration-200"
                       title="Delete Branch"
                     >
                       <Trash2 size={14} />
@@ -292,32 +290,32 @@ export default function BranchesPage() {
                   </div>
                 </div>
 
-                <div className="mt-4 text-xs text-slate-400 bg-black/20 p-3 rounded-xl border border-white/5">
+                <div className="mt-4 text-xs text-slate-600 dark:text-slate-400 bg-primary-card p-3 rounded-xl border border-primary-border">
                   <p className="font-semibold text-foreground/90 mb-1">Support Scope:</p>
                   <p className="leading-relaxed">{branch.supportScope}</p>
                 </div>
 
                 {/* Details layout */}
-                <div className="mt-4 space-y-2 text-xs text-slate-500 dark:text-slate-400">
+                <div className="mt-4 space-y-2 text-xs text-slate-600 dark:text-slate-400">
                   <div className="flex items-start gap-2.5">
-                    <MapPin size={14} className="text-[#ff5e5b] mt-0.5" />
+                    <MapPin size={14} className="text-[#ff5e5b] mt-0.5 shrink-0" />
                     <span>{branch.address}, {branch.city}, {branch.state} - {branch.pincode}</span>
                   </div>
                   {branch.phoneNumber && (
                     <div className="flex items-center gap-2.5">
-                      <Phone size={14} className="text-sky-400" />
+                      <Phone size={14} className="text-sky-400 shrink-0" />
                       <span>{branch.phoneNumber}</span>
                     </div>
                   )}
                   {branch.email && (
                     <div className="flex items-center gap-2.5">
-                      <Mail size={14} className="text-emerald-400" />
+                      <Mail size={14} className="text-emerald-400 shrink-0" />
                       <span>{branch.email}</span>
                     </div>
                   )}
                   {branch.workingHours && (
                     <div className="flex items-center gap-2.5">
-                      <Clock size={14} className="text-amber-400" />
+                      <Clock size={14} className="text-amber-400 shrink-0" />
                       <span>{branch.workingHours}</span>
                     </div>
                   )}
@@ -325,12 +323,12 @@ export default function BranchesPage() {
               </div>
 
               {branch.googleMapUrl && (
-                <div className="border-t border-white/5 mt-5 pt-3">
+                <div className="border-t border-primary-border mt-5 pt-3">
                   <a
                     href={branch.googleMapUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex items-center gap-1.5 text-xs text-slate-500 dark:text-slate-400 hover:text-[#ff5e5b] font-semibold transition-colors"
+                    className="flex items-center gap-1.5 text-xs text-slate-600 dark:text-slate-400 hover:text-[#ff5e5b] font-semibold transition-colors"
                   >
                     <Globe size={13} />
                     Open Google Maps directions
@@ -362,7 +360,7 @@ export default function BranchesPage() {
               <div className="grid gap-4 sm:grid-cols-2">
                 <Input
                   label={
-                    <span className="flex items-center gap-1.5 text-slate-400">
+                    <span className="flex items-center gap-1.5 text-slate-600 dark:text-slate-400">
                       <MapPin size={13} className="text-[#ff5e5b]" />
                       Branch Name
                     </span>
@@ -371,12 +369,11 @@ export default function BranchesPage() {
                   value={name}
                   onChange={(e) => setName(e.target.value)}
                   disabled={isSubmitting}
-                  className="input-field border-white/5 bg-black/20 hover:border-white/10 focus:border-[#ff5e5b] focus:ring-1 focus:ring-[#ff5e5b]/20 transition-all duration-300"
                   required
                 />
                 <Select
                   label={
-                    <span className="flex items-center gap-1.5 text-slate-400">
+                    <span className="flex items-center gap-1.5 text-slate-600 dark:text-slate-400">
                       <Shield size={13} className="text-[#ff5e5b]" />
                       Branch Type
                     </span>
@@ -388,7 +385,6 @@ export default function BranchesPage() {
                   value={branchType}
                   onChange={(e) => setBranchType(e.target.value as 'head_office' | 'branch_partner')}
                   disabled={isSubmitting}
-                  className="input-field border-white/5 bg-black/20 hover:border-white/10 focus:border-[#ff5e5b] focus:ring-1 focus:ring-[#ff5e5b]/20 transition-all duration-300"
                   required
                 />
               </div>
@@ -397,7 +393,7 @@ export default function BranchesPage() {
                 <div className="sm:col-span-2">
                   <Input
                     label={
-                      <span className="flex items-center gap-1.5 text-slate-400">
+                      <span className="flex items-center gap-1.5 text-slate-600 dark:text-slate-400">
                         <Globe size={13} className="text-[#ff5e5b]" />
                         Region
                       </span>
@@ -406,13 +402,12 @@ export default function BranchesPage() {
                     value={region}
                     onChange={(e) => setRegion(e.target.value)}
                     disabled={isSubmitting}
-                    className="input-field border-white/5 bg-black/20 hover:border-white/10 focus:border-[#ff5e5b] focus:ring-1 focus:ring-[#ff5e5b]/20 transition-all duration-300"
                     required
                   />
                 </div>
                 <Input
                   label={
-                    <span className="flex items-center gap-1.5 text-slate-400">
+                    <span className="flex items-center gap-1.5 text-slate-600 dark:text-slate-400">
                       <MapPin size={13} className="text-[#ff5e5b]" />
                       Pincode
                     </span>
@@ -422,7 +417,6 @@ export default function BranchesPage() {
                   onChange={(e) => setPincode(e.target.value)}
                   maxLength={6}
                   disabled={isSubmitting}
-                  className="input-field border-white/5 bg-black/20 hover:border-white/10 focus:border-[#ff5e5b] focus:ring-1 focus:ring-[#ff5e5b]/20 transition-all duration-300"
                   required
                 />
               </div>
@@ -430,7 +424,7 @@ export default function BranchesPage() {
               <div className="grid gap-4 sm:grid-cols-2">
                 <Input
                   label={
-                    <span className="flex items-center gap-1.5 text-slate-400">
+                    <span className="flex items-center gap-1.5 text-slate-600 dark:text-slate-400">
                       <Globe size={13} className="text-[#ff5e5b]" />
                       City
                     </span>
@@ -439,12 +433,11 @@ export default function BranchesPage() {
                   value={city}
                   onChange={(e) => setCity(e.target.value)}
                   disabled={isSubmitting}
-                  className="input-field border-white/5 bg-black/20 hover:border-white/10 focus:border-[#ff5e5b] focus:ring-1 focus:ring-[#ff5e5b]/20 transition-all duration-300"
                   required
                 />
                 <Input
                   label={
-                    <span className="flex items-center gap-1.5 text-slate-400">
+                    <span className="flex items-center gap-1.5 text-slate-600 dark:text-slate-400">
                       <Globe size={13} className="text-[#ff5e5b]" />
                       State
                     </span>
@@ -453,13 +446,12 @@ export default function BranchesPage() {
                   value={state}
                   onChange={(e) => setState(e.target.value)}
                   disabled={isSubmitting}
-                  className="input-field border-white/5 bg-black/20 hover:border-white/10 focus:border-[#ff5e5b] focus:ring-1 focus:ring-[#ff5e5b]/20 transition-all duration-300"
                   required
                 />
               </div>
 
               <div className="flex flex-col gap-1.5">
-                <label className="text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400 flex items-center gap-1.5">
+                <label className="text-xs font-semibold uppercase tracking-wider text-slate-600 dark:text-slate-400 flex items-center gap-1.5">
                   <MapPin size={13} className="text-[#ff5e5b]" />
                   Address Description
                 </label>
@@ -467,7 +459,7 @@ export default function BranchesPage() {
                   placeholder="Full shop/office address..."
                   value={address}
                   onChange={(e) => setAddress(e.target.value)}
-                  className="input-field min-h-[85px] resize-none transition-all duration-300 border-white/5 bg-black/20 hover:border-white/10 focus:border-[#ff5e5b] focus:ring-1 focus:ring-[#ff5e5b]/20"
+                  className="input-field min-h-[85px] resize-none"
                   disabled={isSubmitting}
                   required
                 />
@@ -479,21 +471,20 @@ export default function BranchesPage() {
               <div className="grid gap-4 sm:grid-cols-2">
                 <Input
                   label={
-                    <span className="flex items-center gap-1.5 text-slate-400">
+                    <span className="flex items-center gap-1.5 text-slate-600 dark:text-slate-400">
                       <Phone size={13} className="text-[#ff5e5b]" />
                       Contact Phone
                     </span>
                   }
-                  placeholder="+91 9876543210"
+                  placeholder="+91 9999999999"
                   value={phoneNumber}
                   onChange={(e) => setPhoneNumber(e.target.value)}
                   disabled={isSubmitting}
-                  className="input-field border-white/5 bg-black/20 hover:border-white/10 focus:border-[#ff5e5b] focus:ring-1 focus:ring-[#ff5e5b]/20 transition-all duration-300"
                   required
                 />
                 <Input
                   label={
-                    <span className="flex items-center gap-1.5 text-slate-400">
+                    <span className="flex items-center gap-1.5 text-slate-600 dark:text-slate-400">
                       <Mail size={13} className="text-[#ff5e5b]" />
                       Contact Email
                     </span>
@@ -503,14 +494,13 @@ export default function BranchesPage() {
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   disabled={isSubmitting}
-                  className="input-field border-white/5 bg-black/20 hover:border-white/10 focus:border-[#ff5e5b] focus:ring-1 focus:ring-[#ff5e5b]/20 transition-all duration-300"
                   required
                 />
               </div>
 
               <Input
                 label={
-                  <span className="flex items-center gap-1.5 text-slate-400">
+                  <span className="flex items-center gap-1.5 text-slate-600 dark:text-slate-400">
                     <Clock size={13} className="text-[#ff5e5b]" />
                     Working Hours Summary
                   </span>
@@ -518,13 +508,12 @@ export default function BranchesPage() {
                 value={workingHours}
                 onChange={(e) => setWorkingHours(e.target.value)}
                 disabled={isSubmitting}
-                className="input-field border-white/5 bg-black/20 hover:border-white/10 focus:border-[#ff5e5b] focus:ring-1 focus:ring-[#ff5e5b]/20 transition-all duration-300"
                 required
               />
-              
+
               <Input
                 label={
-                  <span className="flex items-center gap-1.5 text-slate-400">
+                  <span className="flex items-center gap-1.5 text-slate-600 dark:text-slate-400">
                     <Globe size={13} className="text-[#ff5e5b]" />
                     Google Maps Direct Link
                   </span>
@@ -533,7 +522,6 @@ export default function BranchesPage() {
                 value={googleMapUrl}
                 onChange={(e) => setGoogleMapUrl(e.target.value)}
                 disabled={isSubmitting}
-                className="input-field border-white/5 bg-black/20 hover:border-white/10 focus:border-[#ff5e5b] focus:ring-1 focus:ring-[#ff5e5b]/20 transition-all duration-300"
                 required
               />
 
@@ -541,7 +529,7 @@ export default function BranchesPage() {
                 <div className="sm:col-span-2">
                   <Input
                     label={
-                      <span className="flex items-center gap-1.5 text-slate-400">
+                      <span className="flex items-center gap-1.5 text-slate-600 dark:text-slate-400">
                         <Shield size={13} className="text-[#ff5e5b]" />
                         Support Scope Summary
                       </span>
@@ -550,13 +538,12 @@ export default function BranchesPage() {
                     value={supportScope}
                     onChange={(e) => setSupportScope(e.target.value)}
                     disabled={isSubmitting}
-                    className="input-field border-white/5 bg-black/20 hover:border-white/10 focus:border-[#ff5e5b] focus:ring-1 focus:ring-[#ff5e5b]/20 transition-all duration-300"
                     required
                   />
                 </div>
                 <Select
                   label={
-                    <span className="flex items-center gap-1.5 text-slate-400">
+                    <span className="flex items-center gap-1.5 text-slate-600 dark:text-slate-400">
                       <Shield size={13} className="text-[#ff5e5b]" />
                       Status
                     </span>
@@ -568,14 +555,13 @@ export default function BranchesPage() {
                   value={status}
                   onChange={(e) => setStatus(e.target.value as 'active' | 'inactive')}
                   disabled={isSubmitting}
-                  className="input-field border-white/5 bg-black/20 hover:border-white/10 focus:border-[#ff5e5b] focus:ring-1 focus:ring-[#ff5e5b]/20 transition-all duration-300"
                 />
               </div>
             </div>
           </div>
 
           {/* Action buttons */}
-          <div className="flex justify-end gap-3 border-t border-white/5 pt-4 mt-6">
+          <div className="flex justify-end gap-3 border-t border-primary-border pt-4 mt-6">
             <button
               type="button"
               onClick={() => setIsModalOpen(false)}

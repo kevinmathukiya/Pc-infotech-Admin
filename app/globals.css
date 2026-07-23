@@ -1,5 +1,7 @@
 @import "tailwindcss";
 
+@custom-variant dark (&:where(.dark, .dark *));
+
 :root {
   /* Light theme variables */
   --primary-deep: #f8fafc;
@@ -44,8 +46,8 @@
 
   --background: var(--primary-deep);
   --foreground: #f8fafc;
-  --text-secondary: #94a3b8;
-  --text-muted: #64748b;
+  --text-secondary: #cbd5e1;
+  --text-muted: #94a3b8;
   
   --input-bg: #0b111e;
   --input-text: #f8fafc;
@@ -74,16 +76,16 @@
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   
-  /* Override Tailwind slate colors dynamically */
+  /* Override Tailwind slate colors dynamically for high contrast */
   --color-slate-50: var(--input-bg);
   --color-slate-100: var(--primary-card);
   --color-slate-200: var(--primary-border);
-  --color-slate-300: var(--primary-border);
-  --color-slate-400: var(--text-muted);
-  --color-slate-450: var(--text-muted);
+  --color-slate-300: var(--text-muted);
+  --color-slate-400: var(--text-secondary);
+  --color-slate-450: var(--text-secondary);
   --color-slate-500: var(--text-secondary);
-  --color-slate-600: var(--text-secondary);
-  --color-slate-700: var(--text-secondary);
+  --color-slate-600: var(--foreground);
+  --color-slate-700: var(--foreground);
   --color-slate-800: var(--foreground);
   --color-slate-850: var(--primary-border);
   --color-slate-900: var(--primary-deep);
@@ -350,18 +352,28 @@ select.input-field {
 
 /* Premium Neo-Glass panel with glowing edge support */
 .glass-panel-neon {
-  background: rgba(10, 16, 29, 0.6);
+  background: var(--glass-card-bg);
   backdrop-filter: blur(24px);
   -webkit-backdrop-filter: blur(24px);
+  border: 1px solid var(--primary-border);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.04);
+  transition: all 0.4s ease;
+}
+
+.dark .glass-panel-neon {
+  background: rgba(10, 16, 29, 0.6);
   border: 1px solid rgba(255, 255, 255, 0.08);
   box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3), 
               inset 0 1px 1px rgba(255, 255, 255, 0.1),
               0 0 30px rgba(255, 94, 91, 0.03);
-  transition: all 0.4s ease;
 }
 
 .glass-panel-neon:hover {
   border-color: rgba(255, 94, 91, 0.25);
+  box-shadow: 0 12px 32px rgba(255, 94, 91, 0.1);
+}
+
+.dark .glass-panel-neon:hover {
   box-shadow: 0 20px 50px rgba(0, 0, 0, 0.45), 
               inset 0 1px 1px rgba(255, 255, 255, 0.15),
               0 0 30px rgba(255, 94, 91, 0.08);
@@ -420,16 +432,22 @@ select.input-field {
 
 /* Premium Elegant Glass Panel */
 .glass-card-premium {
-  background: rgba(17, 24, 39, 0.65);
+  background: var(--glass-card-bg);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.6);
+  border: 1px solid var(--primary-border);
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05);
   transition: all 0.3s ease;
 }
 
+.dark .glass-card-premium {
+  background: rgba(17, 24, 39, 0.65);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.6);
+}
+
 .glass-card-premium:hover {
-  border-color: rgba(255, 94, 91, 0.25);
+  border-color: rgba(255, 94, 91, 0.3);
 }
 
 /* Premium Brand Colors Button */

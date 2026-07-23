@@ -41,8 +41,6 @@ export const Header: React.FC<HeaderProps> = ({ setSidebarOpen }) => {
         return 'Services Catalog';
       case 'branches':
         return 'Branch Locations';
-      case 'service-requests':
-        return 'Service Requests (Tickets)';
       case 'blogs':
         return 'Blogs CMS';
       case 'contact-inbox':
@@ -76,10 +74,14 @@ export const Header: React.FC<HeaderProps> = ({ setSidebarOpen }) => {
         {/* Theme Toggle Button */}
         <button
           onClick={toggleTheme}
-          className="flex h-9 w-9 items-center justify-center rounded-lg bg-black/10 hover:bg-black/20 dark:bg-white/5 dark:hover:bg-white/10 border border-white/5 text-slate-400 hover:text-foreground transition-all duration-200 hover:scale-105 cursor-pointer"
+          className="group flex h-9 w-9 items-center justify-center rounded-lg bg-primary-card hover:bg-primary-border border border-primary-border transition-all duration-200 hover:scale-105 cursor-pointer"
           aria-label="Toggle Theme"
         >
-          {theme === 'dark' ? <Sun size={16} /> : <Moon size={16} />}
+          {theme === 'dark' ? (
+            <Sun size={16} className="text-amber-400 group-hover:text-amber-300 transition-colors" />
+          ) : (
+            <Moon size={16} className="text-slate-600 group-hover:text-slate-900 transition-colors" />
+          )}
         </button>
 
         {/* Divider */}
@@ -100,7 +102,7 @@ export const Header: React.FC<HeaderProps> = ({ setSidebarOpen }) => {
           {/* Profile Details Link */}
           <Link
             href="/dashboard/profile"
-            className="flex h-9 w-9 items-center justify-center rounded-lg bg-black/10 hover:bg-black/20 dark:bg-white/5 dark:hover:bg-white/10 border border-white/5 text-[#ff5e5b] hover:text-[#ff3b38] transition-all duration-200 hover:scale-105"
+            className="flex h-9 w-9 items-center justify-center rounded-lg bg-primary-card hover:bg-primary-border border border-primary-border text-[#ff5e5b] hover:text-[#ff3b38] transition-all duration-200 hover:scale-105"
             aria-label="Admin Profile"
           >
             <User size={16} />

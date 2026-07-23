@@ -6,6 +6,8 @@ import { toast } from 'react-hot-toast';
 import { Select } from '../../../components/ui';
 import { Search, Eye, Trash2, Users, Calendar } from 'lucide-react';
 import Link from 'next/link';
+import StatusDropdown from '../../../components/ui/StatusDropdown';
+import jobApplicationService from '../../../lib/api/jobApplicationService';
 
 interface JobApplication {
   _id: string;
@@ -59,6 +61,17 @@ export default function JobApplicationsPage() {
     fetchApplications();
   }, [page, statusFilter]);
 
+  const handleStatusChange = async (id: string, status: string) => {
+    try {
+      await jobApplicationService.updateApplicationStatus(id, status as any);
+      toast.success('Status updated');
+      fetchApplications();
+    } catch (e) {
+      console.error(e);
+      toast.error('Failed to update status');
+    }
+  };
+
   const handleSearchSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     setPage(1);
@@ -97,18 +110,18 @@ export default function JobApplicationsPage() {
       {/* Header */}
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-slate-800 flex items-center gap-2">
+          <h1 className="text-2xl font-bold text-foreground flex items-center gap-2">
             <Users className="text-[#ff5e5b]" size={24} />
             Job Applications
           </h1>
-          <p className="text-xs text-[#94a3b8] mt-1">
+          <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">
             Review candidate details, download resume PDF files, and update application statuses.
           </p>
         </div>
       </div>
 
       {/* Query Filters */}
-      <div className="glass-panel border border-slate-200 rounded-xl p-4 flex flex-col md:flex-row gap-4 justify-between items-stretch">
+      <div className="glass-panel border border-primary-border rounded-xl p-4 flex flex-col md:flex-row gap-4 justify-between items-stretch">
         <form onSubmit={handleSearchSubmit} className="flex-1 flex gap-2">
           <div className="relative flex-1">
             <input
@@ -118,7 +131,7 @@ export default function JobApplicationsPage() {
               onChange={(e) => setSearch(e.target.value)}
               className="input-field pl-10"
             />
-            <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-500" size={16} />
+            <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400" size={16} />
           </div>
           <button type="submit" className="btn-secondary px-5 flex items-center gap-1">
             <Search size={14} />
@@ -147,12 +160,12 @@ export default function JobApplicationsPage() {
       {/* Table list */}
       {loading ? (
         <div className="flex h-[40vh] items-center justify-center">
-          <div className="h-8 w-8 animate-spin rounded-full border-4 border-slate-200 border-t-[#ff5e5b]" />
+          <div className="h-8 w-8 animate-spin rounded-full border-4 border-primary-border border-t-[#ff5e5b]" />
         </div>
       ) : applications.length > 0 ? (
-        <div className="glass-panel border border-primary-border rounded-xl overflow-hidden shadow-xl">
+        <div className="glass-panel border border-primary-border rounded-xl overflow-visible shadow-xl">
           <div className="overflow-x-auto">
-            <table className="w-full text-left border-collapse">
+            <table className="w-full text-left border-collapse rounded-xl">
               <thead>
                 <tr className="border-b border-primary-border bg-primary-slate text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">
                   <th className="py-4 px-6">Candidate</th>
@@ -188,22 +201,23 @@ export default function JobApplicationsPage() {
                       </div>
                     </td>
                     <td className="py-4 px-6">
-                      <span className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium uppercase ${getStatusBadge(app.status)}`}>
-                        {app.status}
-                      </span>
+                      <StatusDropdown
+                        value={app.status as any}
+                        onChange={(e) => handleStatusChange(app._id, e.target.value)}
+                      />
                     </td>
                     <td className="py-4 px-6 text-right">
                       <div className="flex justify-end gap-1.5">
                         <Link
                           href={`/dashboard/job-applications/${app._id}`}
-                          className="p-1.5 text-slate-550 hover:text-sky-400 rounded hover:bg-primary-card transition-colors"
+                          className="p-1.5 text-slate-500 dark:text-slate-400 hover:text-sky-400 rounded hover:bg-primary-card transition-colors"
                           title="View Application Details"
                         >
                           <Eye size={14} />
                         </Link>
                         <button
                           onClick={() => handleDelete(app._id)}
-                          className="p-1.5 text-slate-550 hover:text-red-400 rounded hover:bg-red-500/10 transition-colors"
+                          className="p-1.5 text-slate-500 dark:text-slate-400 hover:text-red-400 rounded hover:bg-red-500/10 transition-colors"
                           title="Delete Submission"
                         >
                           <Trash2 size={14} />
@@ -217,8 +231,8 @@ export default function JobApplicationsPage() {
           </div>
         </div>
       ) : (
-        <div className="text-center py-16 border border-slate-200 rounded-xl bg-slate-50/30">
-          <p className="text-sm text-slate-500 font-medium">No candidate job applications found.</p>
+        <div className="text-center py-16 border border-primary-border rounded-xl bg-primary-card/30">
+          <p className="text-sm text-slate-500 dark:text-slate-400 font-medium">No candidate job applications found.</p>
         </div>
       )}
 

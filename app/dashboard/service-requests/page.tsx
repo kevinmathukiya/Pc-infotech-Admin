@@ -157,17 +157,17 @@ export default function ServiceRequestsPage() {
       
       {/* Title */}
       <div>
-        <h1 className="text-2xl font-bold text-slate-800 flex items-center gap-2">
+        <h1 className="text-2xl font-bold text-foreground flex items-center gap-2">
           <Ticket className="text-[#ff5e5b]" size={24} />
           Repair Tickets Center
         </h1>
-        <p className="text-xs text-slate-450 mt-1">
+        <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">
           Review, manage, and assign progress states to clients requesting hardware repairs or technician visits.
         </p>
       </div>
 
       {/* Query Filters */}
-      <div className="glass-panel border border-slate-200 rounded-xl p-4 flex flex-col md:flex-row gap-4 justify-between items-stretch">
+      <div className="glass-panel border border-primary-border rounded-xl p-4 flex flex-col md:flex-row gap-4 justify-between items-stretch">
         <form onSubmit={handleSearchSubmit} className="flex-1 flex gap-2">
           <div className="relative flex-1">
             <input
@@ -177,7 +177,7 @@ export default function ServiceRequestsPage() {
               onChange={(e) => setSearch(e.target.value)}
               className="input-field pl-10"
             />
-            <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-500" size={16} />
+            <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400" size={16} />
           </div>
           <button type="submit" className="btn-secondary px-5 flex items-center gap-1">
             <Search size={14} />
@@ -206,49 +206,49 @@ export default function ServiceRequestsPage() {
       {/* Grid displays */}
       {loading ? (
         <div className="flex h-[40vh] items-center justify-center">
-          <div className="h-8 w-8 animate-spin rounded-full border-4 border-slate-200 border-t-[#ff5e5b]" />
+          <div className="h-8 w-8 animate-spin rounded-full border-4 border-primary-border border-t-[#ff5e5b]" />
         </div>
       ) : requests.length > 0 ? (
         <div className="grid gap-6 md:grid-cols-2">
           {requests.map((req) => (
             <div
               key={req._id}
-              className="glass-card border border-slate-200 rounded-xl p-6 flex flex-col justify-between"
+              className="glass-card border border-primary-border rounded-xl p-6 flex flex-col justify-between"
             >
               <div>
                 <div className="flex items-start justify-between">
                   <div className="flex items-center gap-2">
                     <User size={14} className="text-[#ff5e5b]" />
-                    <h3 className="text-sm font-bold text-slate-700">{req.customerName}</h3>
+                    <h3 className="text-sm font-bold text-foreground">{req.customerName}</h3>
                   </div>
                   {getStatusBadge(req.status)}
                 </div>
 
                 <div className="grid grid-cols-2 gap-4 mt-4 text-xs">
                   <div>
-                    <span className="text-slate-550 block font-semibold">PRODUCT & BRAND</span>
-                    <span className="text-slate-600 font-medium">{req.brand} - {req.productName}</span>
+                    <span className="text-slate-500 dark:text-slate-400 block font-semibold">PRODUCT & BRAND</span>
+                    <span className="text-foreground font-medium">{req.brand} - {req.productName}</span>
                   </div>
                   <div>
-                    <span className="text-slate-550 block font-semibold">MODEL / SERIAL</span>
-                    <span className="text-slate-350">{req.modelNumber} / <span className="font-semibold text-slate-600">{req.serialNumber}</span></span>
+                    <span className="text-slate-500 dark:text-slate-400 block font-semibold">MODEL / SERIAL</span>
+                    <span className="text-slate-600 dark:text-slate-400">{req.modelNumber} / <span className="font-semibold text-foreground">{req.serialNumber}</span></span>
                   </div>
                 </div>
 
-                <div className="mt-4 p-3 rounded-lg bg-white/40 border border-slate-850 text-xs">
+                <div className="mt-4 p-3 rounded-lg bg-primary-card border border-primary-border text-xs">
                   <span className="text-[#ff5e5b] font-bold block mb-1">Issue Description:</span>
-                  <p className="text-slate-350 leading-relaxed line-clamp-3">{req.problemDescription}</p>
+                  <p className="text-slate-600 dark:text-slate-400 leading-relaxed line-clamp-3">{req.problemDescription}</p>
                 </div>
 
                 {req.engineerRemarks && (
                   <div className="mt-3 p-3 rounded-lg bg-[#ff5e5b]/5 border border-[#ff5e5b]/10 text-xs">
                     <span className="text-sky-400 font-bold block mb-1">Engineer Remarks:</span>
-                    <p className="text-slate-350 leading-relaxed">{req.engineerRemarks}</p>
+                    <p className="text-slate-600 dark:text-slate-400 leading-relaxed">{req.engineerRemarks}</p>
                   </div>
                 )}
 
                 {/* Meta details */}
-                <div className="mt-5 grid grid-cols-2 gap-3 border-t border-slate-850 pt-4 text-xs text-slate-400">
+                <div className="mt-5 grid grid-cols-2 gap-3 border-t border-primary-border pt-4 text-xs text-slate-500 dark:text-slate-400">
                   <div className="flex items-center gap-2">
                     <Phone size={13} className="text-sky-400" />
                     <span>{req.mobileNumber}</span>
@@ -261,8 +261,8 @@ export default function ServiceRequestsPage() {
               </div>
 
               {/* Actions footer */}
-              <div className="flex items-center justify-between border-t border-slate-850 mt-4 pt-3.5">
-                <span className="text-[10px] font-semibold text-slate-550 uppercase">
+              <div className="flex items-center justify-between border-t border-primary-border mt-4 pt-3.5">
+                <span className="text-[10px] font-semibold text-slate-500 dark:text-slate-400 uppercase">
                   Created: {req.createdAt ? new Date(req.createdAt).toLocaleDateString() : 'N/A'}
                 </span>
                 
@@ -276,7 +276,7 @@ export default function ServiceRequestsPage() {
                   </button>
                   <button
                     onClick={() => handleDelete(req._id)}
-                    className="p-1.5 text-slate-450 hover:text-red-400 rounded hover:bg-red-500/10 transition-colors"
+                    className="p-1.5 text-slate-500 dark:text-slate-400 hover:text-red-400 rounded hover:bg-red-500/10 transition-colors"
                     title="Remove Ticket"
                   >
                     <Trash2 size={13} />
@@ -287,8 +287,8 @@ export default function ServiceRequestsPage() {
           ))}
         </div>
       ) : (
-        <div className="text-center py-16 border border-slate-200 rounded-xl bg-slate-50/30">
-          <p className="text-sm text-slate-500 font-medium">No service request tickets found.</p>
+        <div className="text-center py-16 border border-primary-border rounded-xl bg-primary-card/30">
+          <p className="text-sm text-slate-500 dark:text-slate-400 font-medium">No service request tickets found.</p>
         </div>
       )}
 
@@ -302,7 +302,7 @@ export default function ServiceRequestsPage() {
           >
             Prev
           </button>
-          <span className="flex items-center text-xs text-slate-400 font-semibold px-2">
+          <span className="flex items-center text-xs text-slate-500 dark:text-slate-400 font-semibold px-2">
             Page {page} of {totalPages}
           </span>
           <button
@@ -324,14 +324,14 @@ export default function ServiceRequestsPage() {
       >
         {activeRequest && (
           <form onSubmit={handleSubmit} className="space-y-4 pt-1">
-            <div className="bg-white/40 p-4 border border-slate-850 rounded-xl space-y-1.5 text-xs">
-              <p className="text-slate-400">
-                <span className="font-bold text-slate-350">Customer:</span> {activeRequest.customerName}
+            <div className="bg-primary-card p-4 border border-primary-border rounded-xl space-y-1.5 text-xs">
+              <p className="text-slate-500 dark:text-slate-400">
+                <span className="font-bold text-foreground">Customer:</span> {activeRequest.customerName}
               </p>
-              <p className="text-slate-400">
-                <span className="font-bold text-slate-350">Product Name:</span> {activeRequest.brand} - {activeRequest.productName}
+              <p className="text-slate-500 dark:text-slate-400">
+                <span className="font-bold text-foreground">Product Name:</span> {activeRequest.brand} - {activeRequest.productName}
               </p>
-              <p className="text-slate-450 italic mt-2 border-t border-slate-850 pt-2">
+              <p className="text-slate-600 dark:text-slate-300 italic mt-2 border-t border-primary-border pt-2">
                 "{activeRequest.problemDescription}"
               </p>
             </div>
@@ -350,7 +350,7 @@ export default function ServiceRequestsPage() {
             />
 
             <div className="flex flex-col gap-1.5">
-              <label className="text-xs font-semibold uppercase tracking-wider text-slate-400">
+              <label className="text-xs font-semibold uppercase tracking-wider text-slate-600 dark:text-slate-400">
                 Engineer Remarks
               </label>
               <textarea
@@ -363,7 +363,7 @@ export default function ServiceRequestsPage() {
             </div>
 
             {/* Action buttons */}
-            <div className="flex justify-end gap-3 border-t border-slate-200 pt-4 mt-6">
+            <div className="flex justify-end gap-3 border-t border-primary-border pt-4 mt-6">
               <button
                 type="button"
                 onClick={() => setIsModalOpen(false)}

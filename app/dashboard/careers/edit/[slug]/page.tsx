@@ -57,7 +57,7 @@ export default function EditCareerPage() {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-2xl font-bold text-slate-800">Edit Career Listing</h1>
+        <h1 className="text-2xl font-bold text-foreground">Edit Career Listing</h1>
         <p className="text-xs text-slate-450 mt-1">
           Modify title, location, type, experience level, salary range, description, and list of requirements/benefits.
         </p>

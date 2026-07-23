@@ -81,11 +81,11 @@ export default function ServicesCatalogPage() {
       {/* Title */}
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-slate-800 flex items-center gap-2">
+          <h1 className="text-2xl font-bold text-foreground flex items-center gap-2">
             <Wrench className="text-[#ff5e5b]" size={24} />
             Services Catalog
           </h1>
-          <p className="text-xs text-slate-450 mt-1">
+          <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">
             Publish client repair scopes (e.g. Laptop repair, Server AMC) displaying specs and FAQs.
           </p>
         </div>
@@ -99,7 +99,7 @@ export default function ServicesCatalogPage() {
       </div>
 
       {/* Query Filters */}
-      <div className="glass-panel border border-slate-200 rounded-xl p-4 flex flex-col md:flex-row gap-4 justify-between items-stretch">
+      <div className="glass-panel border border-primary-border rounded-xl p-4 flex flex-col md:flex-row gap-4 justify-between items-stretch">
         <form onSubmit={handleSearchSubmit} className="flex-1 flex gap-2">
           <div className="relative flex-1">
             <input
@@ -109,7 +109,7 @@ export default function ServicesCatalogPage() {
               onChange={(e) => setSearch(e.target.value)}
               className="input-field pl-10"
             />
-            <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-500" size={16} />
+            <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400" size={16} />
           </div>
           <button type="submit" className="btn-secondary px-5 flex items-center gap-1">
             <Search size={14} />
@@ -136,7 +136,7 @@ export default function ServicesCatalogPage() {
       {/* Services Grid list */}
       {loading ? (
         <div className="flex h-[40vh] items-center justify-center">
-          <div className="h-8 w-8 animate-spin rounded-full border-4 border-slate-200 border-t-[#ff5e5b]" />
+          <div className="h-8 w-8 animate-spin rounded-full border-4 border-primary-border border-t-[#ff5e5b]" />
         </div>
       ) : services.length > 0 ? (
         <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
@@ -214,8 +214,8 @@ export default function ServicesCatalogPage() {
           ))}
         </div>
       ) : (
-        <div className="text-center py-16 border border-slate-200 rounded-xl bg-slate-50/30">
-          <p className="text-sm text-slate-500 font-medium">No services found. Click "Publish Service" to populate.</p>
+        <div className="text-center py-16 border border-primary-border rounded-xl bg-primary-card/30">
+          <p className="text-sm text-slate-500 dark:text-slate-400 font-medium">No services found. Click "Publish Service" to populate.</p>
         </div>
       )}
 

@@ -94,11 +94,11 @@ export default function CareersCatalogPage() {
       {/* Header */}
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-slate-800 flex items-center gap-2">
+          <h1 className="text-2xl font-bold text-foreground flex items-center gap-2">
             <Briefcase className="text-[#ff5e5b]" size={24} />
             Careers CMS
           </h1>
-          <p className="text-xs text-[#94a3b8] mt-1">
+          <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">
             Manage open job positions, descriptions, requirements, and locations for applicant applications.
           </p>
         </div>
@@ -112,7 +112,7 @@ export default function CareersCatalogPage() {
       </div>
 
       {/* Query Filters */}
-      <div className="glass-panel border border-slate-200 rounded-xl p-4 flex flex-col md:flex-row gap-4 justify-between items-stretch">
+      <div className="glass-panel border border-primary-border rounded-xl p-4 flex flex-col md:flex-row gap-4 justify-between items-stretch">
         <form onSubmit={handleSearchSubmit} className="flex-1 flex gap-2">
           <div className="relative flex-1">
             <input
@@ -122,7 +122,7 @@ export default function CareersCatalogPage() {
               onChange={(e) => setSearch(e.target.value)}
               className="input-field pl-10"
             />
-            <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-500" size={16} />
+            <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400" size={16} />
           </div>
           <button type="submit" className="btn-secondary px-5 flex items-center gap-1">
             <Search size={14} />
@@ -149,7 +149,7 @@ export default function CareersCatalogPage() {
       {/* Career Table list */}
       {loading ? (
         <div className="flex h-[40vh] items-center justify-center">
-          <div className="h-8 w-8 animate-spin rounded-full border-4 border-slate-200 border-t-[#ff5e5b]" />
+          <div className="h-8 w-8 animate-spin rounded-full border-4 border-primary-border border-t-[#ff5e5b]" />
         </div>
       ) : careers.length > 0 ? (
         <div className="glass-panel border border-primary-border rounded-xl overflow-hidden shadow-xl">
@@ -196,7 +196,7 @@ export default function CareersCatalogPage() {
                       <span className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium uppercase ${
                         career.status === 'active'
                           ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20'
-                          : 'bg-slate-500/10 text-slate-450 border border-slate-500/20'
+                          : 'bg-slate-500/10 text-slate-400 border border-slate-500/20'
                       }`}>
                         {career.status}
                       </span>
@@ -205,21 +205,21 @@ export default function CareersCatalogPage() {
                       <div className="flex justify-end gap-1.5">
                         <button
                           onClick={() => toggleStatus(career._id, career.status)}
-                          className="p-1.5 text-slate-500 hover:text-[#ff5e5b] rounded hover:bg-primary-card transition-colors"
+                          className="p-1.5 text-slate-500 dark:text-slate-400 hover:text-[#ff5e5b] rounded hover:bg-primary-card transition-colors"
                           title={career.status === 'active' ? 'Hide Job Role' : 'Activate Job Role'}
                         >
                           {career.status === 'active' ? <EyeOff size={14} /> : <Eye size={14} />}
                         </button>
                         <Link
                           href={`/dashboard/careers/edit/${career._id}`}
-                          className="p-1.5 text-slate-550 hover:text-sky-400 rounded hover:bg-primary-card transition-colors"
+                          className="p-1.5 text-slate-500 dark:text-slate-400 hover:text-sky-400 rounded hover:bg-primary-card transition-colors"
                           title="Edit Job Role"
                         >
                           <Edit size={14} />
                         </Link>
                         <button
                           onClick={() => handleDelete(career._id)}
-                          className="p-1.5 text-slate-550 hover:text-red-400 rounded hover:bg-red-500/10 transition-colors"
+                          className="p-1.5 text-slate-500 dark:text-slate-400 hover:text-red-400 rounded hover:bg-red-500/10 transition-colors"
                           title="Delete Job Role"
                         >
                           <Trash2 size={14} />
@@ -233,8 +233,8 @@ export default function CareersCatalogPage() {
           </div>
         </div>
       ) : (
-        <div className="text-center py-16 border border-slate-200 rounded-xl bg-slate-50/30">
-          <p className="text-sm text-slate-500 font-medium">No careers listings found. Click "Create Job Posting" to start listing roles.</p>
+        <div className="text-center py-16 border border-primary-border rounded-xl bg-primary-card/30">
+          <p className="text-sm text-slate-500 dark:text-slate-400 font-medium">No careers listings found. Click "Create Job Posting" to start listing roles.</p>
         </div>
       )}
 

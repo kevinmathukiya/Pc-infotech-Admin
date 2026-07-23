@@ -7,7 +7,7 @@ export default function CreateCareerPage() {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-2xl font-bold text-slate-800">Publish New Job Role</h1>
+        <h1 className="text-2xl font-bold text-foreground">Publish New Job Role</h1>
         <p className="text-xs text-slate-450 mt-1">
           Specify listing details, experience requirements, salary ranges, location, and technical skill requirements.
         </p>

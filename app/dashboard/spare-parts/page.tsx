@@ -198,11 +198,11 @@ export default function SparePartsCatalogPage() {
       {/* Title Header */}
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-slate-800 flex items-center gap-2">
+          <h1 className="text-2xl font-bold text-foreground flex items-center gap-2">
             <Wrench className="text-[#ff5e5b]" size={24} />
             Spare Parts & Accessories
           </h1>
-          <p className="text-xs text-slate-450 mt-1">
+          <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">
             Manage replacement keyboards, laptop batteries, printer toners, color inks, and camera lenses.
           </p>
         </div>
@@ -216,7 +216,7 @@ export default function SparePartsCatalogPage() {
       </div>
 
       {/* Query Filters */}
-      <div className="glass-panel border border-slate-200 rounded-xl p-5 space-y-4">
+      <div className="glass-panel border border-primary-border rounded-xl p-5 space-y-4">
         {/* Search */}
         <form onSubmit={handleSearchSubmit} className="flex gap-2">
           <div className="relative flex-1">
@@ -227,7 +227,7 @@ export default function SparePartsCatalogPage() {
               onChange={(e) => setSearch(e.target.value)}
               className="input-field pl-10"
             />
-            <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-500" size={16} />
+            <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400" size={16} />
           </div>
           <button type="submit" className="btn-secondary px-5 flex items-center gap-1.5 text-xs font-semibold">
             <Search size={14} />
@@ -297,7 +297,7 @@ export default function SparePartsCatalogPage() {
       {/* Grid or Table Display */}
       {loading ? (
         <div className="flex h-[40vh] items-center justify-center">
-          <div className="h-8 w-8 animate-spin rounded-full border-4 border-slate-200 border-t-[#ff5e5b]" />
+          <div className="h-8 w-8 animate-spin rounded-full border-4 border-primary-border border-t-[#ff5e5b]" />
         </div>
       ) : spareParts.length > 0 ? (
         <div className="glass-panel border border-primary-border rounded-xl overflow-hidden shadow-xl">
@@ -435,8 +435,8 @@ export default function SparePartsCatalogPage() {
           </div>
         </div>
       ) : (
-        <div className="text-center py-16 border border-slate-200 rounded-xl bg-slate-50/30">
-          <p className="text-sm text-slate-500 font-medium">No spare parts found. Click "Create Spare Part" to add items.</p>
+        <div className="text-center py-16 border border-primary-border rounded-xl bg-primary-card/30">
+          <p className="text-sm text-slate-500 dark:text-slate-400 font-medium">No spare parts found. Click "Create Spare Part" to add items.</p>
         </div>
       )}
 

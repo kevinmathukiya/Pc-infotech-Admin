@@ -82,11 +82,11 @@ export default function BlogsCatalogPage() {
       {/* Header */}
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-slate-800 flex items-center gap-2">
+          <h1 className="text-2xl font-bold text-foreground flex items-center gap-2">
             <FileText className="text-[#ff5e5b]" size={24} />
             Blogs CMS
           </h1>
-          <p className="text-xs text-[#94a3b8] mt-1">
+          <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">
             Publish articles, tech guides, and updates. Configure metadata for Google SEO alignment.
           </p>
         </div>
@@ -100,7 +100,7 @@ export default function BlogsCatalogPage() {
       </div>
 
       {/* Query Filters */}
-      <div className="glass-panel border border-slate-200 rounded-xl p-4 flex flex-col md:flex-row gap-4 justify-between items-stretch">
+      <div className="glass-panel border border-primary-border rounded-xl p-4 flex flex-col md:flex-row gap-4 justify-between items-stretch">
         <form onSubmit={handleSearchSubmit} className="flex-1 flex gap-2">
           <div className="relative flex-1">
             <input
@@ -110,7 +110,7 @@ export default function BlogsCatalogPage() {
               onChange={(e) => setSearch(e.target.value)}
               className="input-field pl-10"
             />
-            <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-505" size={16} />
+            <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400" size={16} />
           </div>
           <button type="submit" className="btn-secondary px-5 flex items-center gap-1">
             <Search size={14} />
@@ -137,17 +137,17 @@ export default function BlogsCatalogPage() {
       {/* Blog grid */}
       {loading ? (
         <div className="flex h-[40vh] items-center justify-center">
-          <div className="h-8 w-8 animate-spin rounded-full border-4 border-slate-200 border-t-[#ff5e5b]" />
+          <div className="h-8 w-8 animate-spin rounded-full border-4 border-primary-border border-t-[#ff5e5b]" />
         </div>
       ) : blogs.length > 0 ? (
         <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
           {blogs.map((blog) => (
             <div
               key={blog._id}
-              className="glass-card border border-slate-200 rounded-xl overflow-hidden flex flex-col justify-between"
+              className="glass-card border border-primary-border rounded-xl overflow-hidden flex flex-col justify-between"
             >
               {/* Cover preview */}
-              <div className="relative h-40 w-full bg-slate-50 overflow-hidden border-b border-slate-200 flex items-center justify-center">
+              <div className="relative h-40 w-full bg-primary-slate overflow-hidden border-b border-primary-border flex items-center justify-center">
                 {blog.featuredImage?.url ? (
                   <img
                     src={blog.featuredImage.url}
@@ -155,7 +155,7 @@ export default function BlogsCatalogPage() {
                     className="h-full w-full object-cover"
                   />
                 ) : (
-                  <FileText size={32} className="text-slate-700" />
+                  <FileText size={32} className="text-slate-500 dark:text-slate-400" />
                 )}
                 {/* Status label overlay */}
                 <div className="absolute top-2 left-2">
@@ -170,12 +170,12 @@ export default function BlogsCatalogPage() {
               {/* Body */}
               <div className="p-4 flex-1 flex flex-col justify-between">
                 <div>
-                  <h3 className="text-sm font-bold text-slate-700 line-clamp-2 leading-relaxed" title={blog.title}>
+                  <h3 className="text-sm font-bold text-foreground line-clamp-2 leading-relaxed" title={blog.title}>
                     {blog.title}
                   </h3>
                 </div>
 
-                <div className="border-t border-slate-850 mt-4 pt-3.5 flex items-center justify-between text-xs text-slate-500 font-semibold">
+                <div className="border-t border-primary-border mt-4 pt-3.5 flex items-center justify-between text-xs text-slate-500 dark:text-slate-400 font-semibold">
                   <span className="flex items-center gap-1">
                     <Calendar size={12} />
                     {blog.publishedDate ? new Date(blog.publishedDate).toLocaleDateString() : 'N/A'}
@@ -184,14 +184,14 @@ export default function BlogsCatalogPage() {
                   <div className="flex gap-1">
                     <Link
                       href={`/dashboard/blogs/edit/${blog.slug}`}
-                      className="p-1.5 text-slate-450 hover:text-sky-400 rounded hover:bg-slate-100 transition-colors"
+                      className="p-1.5 text-slate-500 dark:text-slate-400 hover:text-sky-400 rounded hover:bg-primary-card transition-colors"
                       title="Edit Post"
                     >
                       <Edit size={13} />
                     </Link>
                     <button
                       onClick={() => handleDelete(blog._id)}
-                      className="p-1.5 text-slate-450 hover:text-red-400 rounded hover:bg-red-500/10 transition-colors"
+                      className="p-1.5 text-slate-500 dark:text-slate-400 hover:text-red-400 rounded hover:bg-red-500/10 transition-colors"
                       title="Delete Post"
                     >
                       <Trash2 size={13} />
@@ -203,8 +203,8 @@ export default function BlogsCatalogPage() {
           ))}
         </div>
       ) : (
-        <div className="text-center py-16 border border-slate-200 rounded-xl bg-slate-50/30">
-          <p className="text-sm text-slate-500 font-medium">No blog posts found. Click "Publish Post" to start writing.</p>
+        <div className="text-center py-16 border border-primary-border rounded-xl bg-primary-card/30">
+          <p className="text-sm text-slate-500 dark:text-slate-400 font-medium">No blog posts found. Click "Publish Post" to start writing.</p>
         </div>
       )}
 

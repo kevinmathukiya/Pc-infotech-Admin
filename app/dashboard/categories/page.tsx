@@ -169,7 +169,7 @@ export default function CategoriesPage() {
       </div>
 
       {/* Query Filters */}
-      <div className="glass-card-premium rounded-2xl p-4 flex flex-col md:flex-row gap-4 justify-between items-stretch border border-white/5">
+      <div className="glass-card-premium rounded-2xl p-4 flex flex-col md:flex-row gap-4 justify-between items-stretch border border-primary-border">
         <form onSubmit={handleSearch} className="flex-1 flex gap-2">
           <div className="relative flex-1">
             <input
@@ -312,7 +312,7 @@ export default function CategoriesPage() {
           <div className="space-y-4">
             <Input
               label={
-                <span className="flex items-center gap-1.5 text-slate-400">
+                <span className="flex items-center gap-1.5 text-slate-600 dark:text-slate-400">
                   <FolderOpen size={13} className="text-[#ff5e5b]" />
                   Category Name
                 </span>
@@ -321,13 +321,12 @@ export default function CategoriesPage() {
               value={name}
               onChange={(e) => setName(e.target.value)}
               disabled={isSubmitting}
-              className="input-field border-white/5 bg-black/20 hover:border-white/10 focus:border-[#ff5e5b] focus:ring-1 focus:ring-[#ff5e5b]/20 transition-all duration-300"
               required
             />
 
             <Select
               label={
-                <span className="flex items-center gap-1.5 text-slate-400">
+                <span className="flex items-center gap-1.5 text-slate-600 dark:text-slate-400">
                   <Award size={13} className="text-[#ff5e5b]" />
                   Associated Brand
                 </span>
@@ -336,13 +335,12 @@ export default function CategoriesPage() {
               value={selectedBrand}
               onChange={(e) => setSelectedBrand(e.target.value)}
               disabled={isSubmitting}
-              className="input-field border-white/5 bg-black/20 hover:border-white/10 focus:border-[#ff5e5b] focus:ring-1 focus:ring-[#ff5e5b]/20 transition-all duration-300"
               required
             />
 
             <Select
               label={
-                <span className="flex items-center gap-1.5 text-slate-400">
+                <span className="flex items-center gap-1.5 text-slate-600 dark:text-slate-400">
                   <Activity size={13} className="text-[#ff5e5b]" />
                   Status
                 </span>
@@ -354,11 +352,10 @@ export default function CategoriesPage() {
               value={status}
               onChange={(e) => setStatus(e.target.value as 'active' | 'inactive')}
               disabled={isSubmitting}
-              className="input-field border-white/5 bg-black/20 hover:border-white/10 focus:border-[#ff5e5b] focus:ring-1 focus:ring-[#ff5e5b]/20 transition-all duration-300"
             />
 
             <div className="flex flex-col gap-1.5">
-              <label className="text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400 flex items-center gap-1.5">
+              <label className="text-xs font-semibold uppercase tracking-wider text-slate-600 dark:text-slate-400 flex items-center gap-1.5">
                 <AlignLeft size={13} className="text-[#ff5e5b]" />
                 Description (Optional)
               </label>
@@ -366,14 +363,14 @@ export default function CategoriesPage() {
                 placeholder="Provide a detailed category outline..."
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
-                className="input-field min-h-[100px] resize-none transition-all duration-300 border-white/5 bg-black/20 hover:border-white/10 focus:border-[#ff5e5b] focus:ring-1 focus:ring-[#ff5e5b]/20"
+                className="input-field min-h-[100px] resize-none"
                 disabled={isSubmitting}
               />
             </div>
           </div>
 
           {/* Action buttons */}
-          <div className="flex justify-end gap-3 border-t border-white/5 pt-4 mt-6">
+          <div className="flex justify-end gap-3 border-t border-primary-border pt-4 mt-6">
             <button
               type="button"
               onClick={() => setIsModalOpen(false)}

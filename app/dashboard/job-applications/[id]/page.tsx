@@ -4,9 +4,9 @@ import React, { useEffect, useState } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import api from '../../../../lib/api';
 import { toast } from 'react-hot-toast';
-
-import { ArrowLeft, User, Mail, Phone, Calendar, FileText, Download, Award } from 'lucide-react';
+import { ArrowLeft, User, Mail, Phone, Calendar, FileText, Download, Award, CheckCircle } from 'lucide-react';
 import Link from 'next/link';
+import StatusDropdown from '../../../../components/ui/StatusDropdown';
 
 export default function JobApplicationDetailPage() {
   const params = useParams();
@@ -37,7 +37,7 @@ export default function JobApplicationDetailPage() {
   const handleStatusChange = async (newStatus: string) => {
     try {
       setIsUpdating(true);
-      await api.patch(`/job-applications/${id}/status`, { status: newStatus });
+      await api.put(`/job-applications/${id}/status`, { status: newStatus });
       toast.success(`Application status updated to ${newStatus}`);
       fetchApplication();
     } catch (error: any) {
@@ -143,6 +143,23 @@ export default function JobApplicationDetailPage() {
 
         {/* Right Column: Resume & Application Status */}
         <div className="space-y-6">
+          {/* Application Status Management */}
+          <div className="glass-panel border border-primary-border rounded-xl p-5 space-y-4">
+            <h3 className="text-sm font-bold text-foreground uppercase tracking-widest flex items-center gap-2">
+              <CheckCircle size={16} className="text-[#ff5e5b]" />
+              Application Status
+            </h3>
+
+            <div className="rounded-xl border border-primary-border bg-primary-slate p-4 space-y-3">
+              <span className="text-xs text-slate-500 dark:text-slate-400 block font-semibold">Current Candidate Status:</span>
+              <StatusDropdown
+                value={app.status || 'pending'}
+                onChange={(e) => handleStatusChange(e.target.value)}
+              />
+              {isUpdating && <p className="text-[10px] text-sky-400 animate-pulse font-medium">Updating status...</p>}
+            </div>
+          </div>
+
           {/* Resume Upload Details */}
           <div className="glass-panel border border-primary-border rounded-xl p-5 space-y-4">
             <h3 className="text-sm font-bold text-foreground uppercase tracking-widest flex items-center gap-2">
@@ -156,7 +173,7 @@ export default function JobApplicationDetailPage() {
                 <span className="text-xs text-slate-450 block font-semibold">Attachment Format</span>
                 <span className="text-xs font-bold text-foreground uppercase">Document / PDF</span>
               </div>
-              
+
               {app.resume?.url ? (
                 <a
                   href={app.resume.url}

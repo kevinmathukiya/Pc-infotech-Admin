@@ -137,11 +137,11 @@ export default function TestimonialsPage() {
       {/* Title */}
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-slate-800 flex items-center gap-2">
+          <h1 className="text-2xl font-bold text-foreground flex items-center gap-2">
             <MessageSquare className="text-[#ff5e5b]" size={24} />
             Customer Testimonials
           </h1>
-          <p className="text-xs text-[#94a3b8] mt-1">
+          <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">
             Display social proof of services, customer remarks, and ratings on the public website homepage.
           </p>
         </div>
@@ -157,14 +157,14 @@ export default function TestimonialsPage() {
       {/* Grid of testimonial cards */}
       {loading ? (
         <div className="flex h-[40vh] items-center justify-center">
-          <div className="h-8 w-8 animate-spin rounded-full border-4 border-slate-200 border-t-[#ff5e5b]" />
+          <div className="h-8 w-8 animate-spin rounded-full border-4 border-primary-border border-t-[#ff5e5b]" />
         </div>
       ) : testimonials.length > 0 ? (
         <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {testimonials.map((t) => (
             <div
               key={t._id}
-              className="glass-card border border-slate-200 rounded-xl p-5 flex flex-col justify-between"
+              className="glass-card border border-primary-border rounded-xl p-5 flex flex-col justify-between"
             >
               <div>
                 <div className="flex items-center justify-between">
@@ -175,7 +175,7 @@ export default function TestimonialsPage() {
                         key={i}
                         size={13}
                         fill={i < t.rating ? 'currentColor' : 'none'}
-                        className={i < t.rating ? 'text-amber-400' : 'text-slate-700'}
+                        className={i < t.rating ? 'text-amber-400' : 'text-slate-300 dark:text-slate-700'}
                       />
                     ))}
                   </div>
@@ -188,37 +188,37 @@ export default function TestimonialsPage() {
                   </span>
                 </div>
 
-                <p className="text-xs text-slate-350 italic mt-4 leading-relaxed line-clamp-4">
+                <p className="text-xs text-slate-600 dark:text-slate-300 italic mt-4 leading-relaxed line-clamp-4">
                   "{t.review}"
                 </p>
               </div>
 
-              <div className="border-t border-slate-850 mt-5 pt-4 flex items-center justify-between">
+              <div className="border-t border-primary-border mt-5 pt-4 flex items-center justify-between">
                 <div className="flex items-center gap-3">
-                  <div className="h-10 w-10 flex-shrink-0 rounded-full border border-slate-200 overflow-hidden bg-slate-50 flex items-center justify-center">
+                  <div className="h-10 w-10 flex-shrink-0 rounded-full border border-primary-border overflow-hidden bg-primary-slate flex items-center justify-center">
                     {t.photo?.url ? (
                       <img src={t.photo.url} alt={t.customerName} className="h-full w-full object-cover" />
                     ) : (
-                      <User size={16} className="text-slate-500" />
+                      <User size={16} className="text-slate-500 dark:text-slate-400" />
                     )}
                   </div>
                   <div>
-                    <h4 className="text-xs font-bold text-slate-700">{t.customerName}</h4>
-                    <span className="text-[10px] text-slate-500 font-medium">{t.company}</span>
+                    <h4 className="text-xs font-bold text-foreground">{t.customerName}</h4>
+                    <span className="text-[10px] text-slate-500 dark:text-slate-400 font-medium">{t.company}</span>
                   </div>
                 </div>
 
                 <div className="flex gap-1">
                   <button
                     onClick={() => openEditModal(t)}
-                    className="p-1.5 text-slate-450 hover:text-sky-400 rounded hover:bg-slate-100 transition-colors"
+                    className="p-1.5 text-slate-500 dark:text-slate-400 hover:text-sky-400 rounded hover:bg-primary-card transition-colors"
                     title="Edit Review"
                   >
                     <Edit size={14} />
                   </button>
                   <button
                     onClick={() => handleDelete(t._id)}
-                    className="p-1.5 text-slate-450 hover:text-red-400 rounded hover:bg-red-500/10 transition-colors"
+                    className="p-1.5 text-slate-500 dark:text-slate-400 hover:text-red-400 rounded hover:bg-red-500/10 transition-colors"
                     title="Delete Review"
                   >
                     <Trash2 size={14} />
@@ -229,8 +229,8 @@ export default function TestimonialsPage() {
           ))}
         </div>
       ) : (
-        <div className="text-center py-16 border border-slate-200 rounded-xl bg-slate-50/30">
-          <p className="text-sm text-slate-500 font-medium">No testimonials found. Click "Add Testimonial" to create one.</p>
+        <div className="text-center py-16 border border-primary-border rounded-xl bg-primary-card/30">
+          <p className="text-sm text-slate-500 dark:text-slate-400 font-medium">No testimonials found. Click "Add Testimonial" to create one.</p>
         </div>
       )}
 
@@ -262,7 +262,7 @@ export default function TestimonialsPage() {
           </div>
 
           <div className="flex flex-col gap-1.5">
-            <label className="text-xs font-semibold uppercase tracking-wider text-slate-400">
+            <label className="text-xs font-semibold uppercase tracking-wider text-slate-600 dark:text-slate-400">
               Customer Review
             </label>
             <textarea
@@ -277,10 +277,10 @@ export default function TestimonialsPage() {
 
           {/* Rating Slider Selector */}
           <div className="flex flex-col gap-1.5">
-            <label className="text-xs font-semibold uppercase tracking-wider text-slate-400">
+            <label className="text-xs font-semibold uppercase tracking-wider text-slate-600 dark:text-slate-400">
               Star Rating (1-5 Stars)
             </label>
-            <div className="flex items-center gap-2 bg-slate-50 border border-slate-200 p-2.5 rounded-lg">
+            <div className="flex items-center gap-2 bg-primary-slate border border-primary-border p-2.5 rounded-lg">
               <input
                 type="range"
                 min="1"
@@ -317,7 +317,7 @@ export default function TestimonialsPage() {
           />
 
           {/* Action buttons */}
-          <div className="flex justify-end gap-3 border-t border-slate-200 pt-4 mt-6">
+          <div className="flex justify-end gap-3 border-t border-primary-border pt-4 mt-6">
             <button
               type="button"
               onClick={() => setIsModalOpen(false)}
